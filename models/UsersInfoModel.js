@@ -18,7 +18,7 @@ const UserInfo = db.define("users_info",{
         allowNull: false,
         validate : {
             notEmpty: true,
-            isAlpha: true, 
+            is: /^[A-Za-z\s]*$/
         }
     },
     last_name : {
@@ -26,7 +26,7 @@ const UserInfo = db.define("users_info",{
         allowNull: false,
         validate : {
             notEmpty: true,
-            isAlpha: true, 
+            is: /^[A-Za-z\s]*$/
         }
     },
     city : {

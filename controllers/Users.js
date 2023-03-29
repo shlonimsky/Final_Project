@@ -16,7 +16,7 @@ export const getUsers = async (req,res) => {
     }
 }
 
-export const my_profile = async (req,res) => {
+export const getMyProfile = async (req,res) => {
     
     try{
         const user_info = await UserInfo.findAll({
@@ -29,7 +29,7 @@ export const my_profile = async (req,res) => {
         else throw Error("user not found")
     } catch (err){
         console.log("my profile error => ",err)
-        res.status(404).json({msg : err.message})
+        res.status(403).json({msg : err.message})
     }
 }
 
@@ -62,7 +62,63 @@ export const login = async (req,res) => {
     }
 }
 
+export const postMyProfile = async (req,res) => {
+    const {fname, lname, city, birth, gender, info} = req.body;
 
+    try{
+        // const d = new Date(birth)
+        // console.log("**** d =>",d)
+        await UserInfo.create({
+            user_id : req.params.id,
+            first_name : fname,
+            last_name : lname,
+            city : city,
+            birth_date : birth,
+            gender : gender,
+            info : info
+        });
+        res.json({msg : "ok"});
+    } catch (err){
+        console.log("ERROR => ", err)
+       if (err.errors){
+            const {type,path} = err.errors[0]
+            console.log(err)
+            switch (type){
+                case "Validation error" : return res.status(403).json({msg : `Please, enter the correct ${path}`})
+                case "unique violation" : return res.status(403).json({msg : "Email already exist!"});
+                default : return res.status(403).json({msg : "Oops, something went wrong! Try again"});
+                }
+       }
+    else return res.status(404).json({msg : "Not fount"});
+    }
+}
+
+export const editMyProfile = async (req,res) => {
+    const {fname, lname, city, birth, gender, info} = req.body;
+    try {
+        await UserInfo.update({
+            first_name : fname,
+            last_name : lname,
+            city : city,
+            birth_date : birth,
+            gender : gender,
+            info : info
+        }, {where : {user_id : req.params.id} });
+        res.json({msg : "ok"});
+    } catch (err) {
+        console.log("ERROR => ", err)
+        if (err.errors){
+             const {type,path} = err.errors[0]
+             console.log(err)
+             switch (type){
+                 case "Validation error" : return res.status(403).json({msg : `Please, enter the correct ${path}`})
+                 case "unique violation" : return res.status(403).json({msg : "Email already exist!"});
+                 default : return res.status(403).json({msg : "Oops, something went wrong! Try again"});
+                 }
+        }
+     else return res.json({msg : "Not found"});
+    }
+}
 
 export const register = async (req,res) => {
     const {email , password} = req.body;
@@ -82,9 +138,9 @@ export const register = async (req,res) => {
         const {type,path,validatorKey,validatorName} = err.errors[0]
         console.log("err=>", err.errors[0],"**********************");
         switch (type){
-            case "Validation error" : res.status(403).json({msg : `Please, enter the correct ${path}`})
-            case "unique violation" : res.status(403).json({msg : "Email already exist!"});
-            default : res.status(403).json({msg : "Oops, something went wrong! Try again"});
+            case "Validation error" : return res.status(403).json({msg : `Please, enter the correct ${path}`})
+            case "unique violation" : return res.status(403).json({msg : "Email already exists!"});
+            default : return res.status(403).json({msg : "Oops, something went wrong! Try again"});
         }
     }
 }

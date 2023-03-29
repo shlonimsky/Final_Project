@@ -1,14 +1,17 @@
 import express from "express";
-import { register, login, getUsers, my_profile } from "../controllers/Users.js";
+import { register, login, getUsers, getMyProfile, postMyProfile, editMyProfile } from "../controllers/Users.js";
 import {VerifyToken} from '../middlewares/verifytoken.js';
 import jwt from 'jsonwebtoken';
-const router = express.Router();
+const routerUsers = express.Router();
 
-router.post('/register', register);
-router.post('/login', login);
-router.get('/users', VerifyToken, getUsers);
-router.get('/cabinet/:id',VerifyToken, my_profile)
-router.get('/token', VerifyToken, (req,res) => {
+routerUsers.post('/register', register);
+routerUsers.post('/login', login);
+routerUsers.get('/users', VerifyToken, getUsers);
+routerUsers.post('/cabinet/:id/set', postMyProfile)
+routerUsers.put('/cabinet/:id/set', editMyProfile)
+routerUsers.get('/cabinet/:id',VerifyToken, getMyProfile)
+
+routerUsers.get('/token', VerifyToken, (req,res) => {
     const userID = req.id;
     const email = req.email;
     const accessToken = jwt.sign({userID,email}, process.env.ACCESS_TOKEN_SECRET, {
@@ -22,4 +25,4 @@ router.get('/token', VerifyToken, (req,res) => {
     res.status(200).json({msg : "ok"})
 })
 
-export default router
+export default routerUsers
