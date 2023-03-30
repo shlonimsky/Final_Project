@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 // import { Auth } from "./Auth/Auth";
 import NavBar from "./Components/NavBar";
 import Home from './Components/Home';
+import LoginRegister from "./Components/LoginRegister";
 import { ifUserAuthorized } from "./helper/isAuth";
 import './style.css'
 
@@ -32,6 +33,9 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={ <Home /> }/>
+        <Route path="/login" element={ <LoginRegister title = {'login'}/>} />
+        <Route path="/register" element={ <LoginRegister title = {'register'}/>} />
+
       </Routes>
 
     </AppContext.Provider>
