@@ -1,8 +1,6 @@
 import logo from '../logo.png';
 import { useNavigate, Link } from 'react-router-dom';
-import Stack from '@mui/material/Stack';
-// import Button from '@mui/material/Button';
-
+import NavUserBar from './NavUserBar';
 import {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,54 +10,26 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import { Badge } from '@mui/material';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import {useSelector} from 'react-redux';
+
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const NavBar = (props) => {
-    const auth = true;
-    const menuId = 'primary-search-account-menu';
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
+const NavBar = (props) => {    
+    const navigate = useNavigate()
+    // const [auth,setAuth] = useState(false);
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const auth = useSelector(state => state.authenticated)
+      const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
       };
-const navigate = useNavigate()
-const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-  //for second
-  const [anchorEl, setAnchorEl] = useState(null);
-
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+      const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+      };
 
   return (
     <>
@@ -76,26 +46,21 @@ const [anchorElNav, setAnchorElNav] = useState(null);
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
-            }}
-          >
+            }}>
             <img src={logo} alt='logo' className='logo' />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
 
-            <IconButton size="large" aria-label="account of current user"
-              aria-controls="menu-appbar" aria-haspopup="true" color="inherit"
+            <IconButton size="large" aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" color="inherit"
               onClick={handleOpenNavMenu}>
                 <MenuIcon />
             </IconButton>
 
-            <Menu id="menu-appbar" anchorEl={anchorElNav}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'left',}}
-              keepMounted
-              transformOrigin={{vertical: 'top', horizontal: 'left'}}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' }}}>
+            <Menu id="menu-appbar" anchorEl={anchorElNav} anchorOrigin={{ vertical: 'bottom', horizontal: 'left',}}
+              keepMounted transformOrigin={{vertical: 'top', horizontal: 'left'}}
+              open={Boolean(anchorElNav)} sx={{ display: { xs: 'block', md: 'none' }}}
+              onClose={handleCloseNavMenu}>
 
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
@@ -131,58 +96,7 @@ const [anchorElNav, setAnchorElNav] = useState(null);
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            { !auth ? (<Button variant="contained" component={Link} to='/login'>Log In</Button>) : (<>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-            </IconButton>
-
-                <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-            </>)}
-            
+            {!auth ? (<Button variant="contained" component={Link} to='/login'>Log In</Button>) : <NavUserBar />}
           </Box>
 
 
