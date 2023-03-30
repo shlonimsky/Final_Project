@@ -5,7 +5,7 @@ import { AppContext } from "../App";
 
 export const Auth = (props) => {
     const [redirect, setRedirect] = useState(false);
-    const [accessToken, setAccessToken] = useState(AppContext);
+    const [accessToken, setAccessToken] = useContext(AppContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,7 +15,7 @@ export const Auth = (props) => {
                 setAccessToken(response.data);
                 setRedirect(true);
             } catch (err) {
-                console.log(err.res.data.msg)
+                console.log(err.response.data.msg)
                 navigate('/login')
             }
         }

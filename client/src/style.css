@@ -1,0 +1,10 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+.logo{
+    width: 9rem;
+}
+header{
+    background-color: #390050;
+}
