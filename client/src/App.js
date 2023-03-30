@@ -5,11 +5,12 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 // import { Auth } from "./Auth/Auth";
 import NavBar from "./Components/NavBar";
 import Home from './Components/Home';
+import { ifUserAuthorized } from "./helper/isAuth";
 import './style.css'
 
 export const AppContext = createContext('');
 
-
+ifUserAuthorized()
 const theme = createTheme({
   palette: {
     primary: {

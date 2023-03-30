@@ -1,6 +1,6 @@
 const initState = {
     authenticated : false,
-    accessToken : "",
+    accessToken : JSON.parse(localStorage.getItem("token")) || "",
     user : []
 }
 
