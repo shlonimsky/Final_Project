@@ -19,7 +19,11 @@ const theme = createTheme({
     },
     secondary: {
       main: "#44B6C6"
-    }
+    },
+    textColor : {
+      main : "#ffffff"
+    },
+    background : "#f2f2f2"
   }
 });
 

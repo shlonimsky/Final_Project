@@ -63,7 +63,7 @@ const NavBar = (props) => {
               onClose={handleCloseNavMenu}>
 
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={handleCloseNavMenu} >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -89,14 +89,14 @@ const NavBar = (props) => {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}>
+                sx={{ my: 2, color: 'white', '&:hover': { borderBottom: 1, borderColor: 'secondary.main'}}}>
                 {page}
               </Button>
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {!auth ? (<Button variant="contained" component={Link} to='/login'>Log In</Button>) : <NavUserBar />}
+            {!auth ? (<Button color='textColor' sx={{'&:hover': { borderBottom: 1, borderColor: 'secondary.main'}}} component={Link} to='/login'>Log In</Button>) : <NavUserBar />}
           </Box>
 
 
