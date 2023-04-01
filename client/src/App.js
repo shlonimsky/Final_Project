@@ -1,12 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import { useState, createContext } from "react";
+import { useState, useEffect, createContext } from "react";
+import { useDispatch } from "react-redux";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 // import { Auth } from "./Auth/Auth";
-import NavBar from "./Components/NavBar";
+import NavBar from "./Components/NavBar/NavBar";
 import Home from './Components/Home';
 import LoginRegister from "./Components/LoginRegister";
 import { ifUserAuthorized } from "./helper/isAuth";
+import { verifyToken } from "./Redux/actions";
 import './style.css'
 
 export const AppContext = createContext('');
@@ -28,8 +30,10 @@ const theme = createTheme({
 });
 
 function App() {
+  const dispatch = useDispatch()
   const [accessToken,setAccessToken] = useState();
-
+  dispatch(verifyToken())
+  // useEffect(() => dispatch(verifyToken()))
 
   return (
   <ThemeProvider theme={theme}>
