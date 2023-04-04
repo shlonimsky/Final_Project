@@ -2,16 +2,17 @@ import { Box, Button, TextField, FormControl, InputLabel, OutlinedInput, InputAd
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import { ifUserAuthorized } from '../Redux/actions';
+import { setUser } from '../Redux/actions';
 import logo from '../logo.png';
 import axios from 'axios';
 
 const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const LoginRegister = (props) => {
+    const dispatch = useDispatch();
     const title = props.title
-    const stateReducer = useSelector(state => state)
-    console.log("stateReducer",stateReducer)
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -34,14 +35,17 @@ const LoginRegister = (props) => {
             if(id === 'login'){
                 console.log("in login")
                     try{
-                        const res = await axios.post('/login',{email,password})
-                        console.log(res.data)
+                        const {data} = await axios.post('/login',{email,password})
+                        console.log("data in LoginRegister  in func",data)
                         //setAccessToken
-                        localStorage.setItem("token",JSON.stringify(res.data.accessToken))
-                        setMsg(res.data.msg)
-                        navigate('/')
+                        dispatch(ifUserAuthorized(true))
+                        dispatch(setUser())
+                        localStorage.setItem("token",JSON.stringify(data.accessToken))
+                        setMsg(data.msg)
+                        navigate(`/cabinet/${data.userID}`)
                     } catch (err){
-                        console.log(err.res.data.msg);
+                        console.log(err.data.msg);
+                        dispatch(ifUserAuthorized(false))
                         setMsg(err.res.data.msg)
                     }
             }

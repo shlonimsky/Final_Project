@@ -17,7 +17,7 @@ const NavBar = (props) => {
           <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
             <DropDownMenu />
 
-            <Button href='/'>
+            <Button component={Link} to='/'>
               <img src={logo} alt='logo' className='logo' />
             </Button>
 

@@ -5,7 +5,7 @@ dotenv.config();
 
 export const VerifyToken = (req,res,next) => {
     console.log(req.cookies)
-    const accessToken = req.cookies.accessToken  || req.headers['x-access-Token'];
+    const accessToken = req.headers['x-access-token'] || req.cookies.accessToken;
 console.log(accessToken)
     if( !accessToken) return res.status(401).json({msg : "permission denied!"});
     jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err,decoded) => {

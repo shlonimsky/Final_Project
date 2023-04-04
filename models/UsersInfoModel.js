@@ -34,7 +34,6 @@ const UserInfo = db.define("users_info",{
         allowNull: false,
         validate : {
             notEmpty: true,
-            isAlpha: true, 
         }
     },
     birth_date : {

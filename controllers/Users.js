@@ -17,15 +17,14 @@ export const getUsers = async (req,res) => {
 }
 
 export const getMyProfile = async (req,res) => {
-    
     try{
         const user_info = await UserInfo.findAll({
             where : {
                 user_id : req.params.id
             }
         });
-        
-        if ( user_info.length > 0) res.json(user_info)
+        console.log("user in getProfile",user_info)
+        if ( user_info.length > 0) res.json(user_info[0])
         else throw Error("user not found")
     } catch (err){
         console.log("my profile error => ",err)
@@ -41,6 +40,7 @@ export const login = async (req,res) => {
                 email : req.body.email
             }
         })
+        // console.log(user)
         const match = await bcrypt.compare(req.body.password, user[0].password)
         if( !match ) return res.status(400).json({msg : "Wrong password"})
 
@@ -54,8 +54,8 @@ export const login = async (req,res) => {
             httpOnly : true,
             maxAge : 60*1000
         })
-        console.log("cookies",req.cookies)
-        res.json({accessToken});
+   
+        res.json({accessToken,userID,email});
     } catch (err){
         console.log(err);
         res.status(404).json({msg : "Email not found"});
@@ -89,7 +89,7 @@ export const postMyProfile = async (req,res) => {
                 default : return res.status(403).json({msg : "Oops, something went wrong! Try again"});
                 }
        }
-    else return res.status(404).json({msg : "Not fount"});
+    else return res.status(404).json({msg : "Not found"});
     }
 }
 

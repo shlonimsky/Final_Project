@@ -22,7 +22,8 @@ routerUsers.get('/token', VerifyToken, (req,res) => {
         httpOnly : true,
         maxAge : 60*1000
     })
-    res.status(200).json({msg : "ok"})
+    console.log("userID,email in token",userID,email);
+    res.status(200).json({msg : "ok",userID,email})
 })
 
 export default routerUsers

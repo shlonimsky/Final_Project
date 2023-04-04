@@ -1,11 +1,12 @@
-import { Button, Box, Link } from "@mui/material";
+import { Button, Box } from "@mui/material";
+import {Link} from 'react-router-dom'
 
 
 const LinksBar = (props) => {
 return(
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-        <Button color='textColor' sx={{'&:hover': { borderBottom: 1, borderColor: 'secondary.main'}}} href='/search_helper'>Find a helper</Button>
-        <Button color='textColor' sx={{'&:hover': { borderBottom: 1, borderColor: 'secondary.main'}}} href='/search_task'>Become a helper</Button>
+        <Button component={Link} color='textColor' sx={{'&:hover': { borderBottom: 1, borderColor: 'secondary.main'}}} to='/search_helper'>Find a helper</Button>
+        <Button component={Link} color='textColor' sx={{'&:hover': { borderBottom: 1, borderColor: 'secondary.main'}}} to='/search_task'>Become a helper</Button>
   </Box>
 )
 }

@@ -7,13 +7,14 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import NavBar from "./Components/NavBar/NavBar";
 import Home from './Components/Home';
 import LoginRegister from "./Components/LoginRegister";
-import { ifUserAuthorized } from "./helper/isAuth";
-import { verifyToken } from "./Redux/actions";
+import Auth from './Auth/Auth'
+import MyProfile from "./Components/MyProfile";
+import { verifyToken, setUser } from "./Redux/actions";
 import './style.css'
 
-export const AppContext = createContext('');
+// export const AppContext = createContext('');
 
-ifUserAuthorized()
+// ifUserAuthorized()
 const theme = createTheme({
   palette: {
     primary: {
@@ -28,25 +29,29 @@ const theme = createTheme({
     background : "#f2f2f2"
   }
 });
-
+console.log('refreshing')
 function App() {
   const dispatch = useDispatch()
   const [accessToken,setAccessToken] = useState();
   dispatch(verifyToken())
-  // useEffect(() => dispatch(verifyToken()))
+  dispatch(setUser())
+  // useEffect(() => {2m
+  //   dispatch(verifyToken())
+  //   return setAccessToken()
+  // },[])
 
   return (
   <ThemeProvider theme={theme}>
-    <AppContext.Provider value={{accessToken, setAccessToken}}>
+    {/* <AppContext.Provider value={{accessToken, setAccessToken}}> */}
       <NavBar />
       <Routes>
         <Route path="/" element={ <Home /> }/>
         <Route path="/login" element={ <LoginRegister title = {'login'}/>} />
         <Route path="/register" element={ <LoginRegister title = {'register'}/>} />
-
+        <Route path="/cabinet/:id" element={<Auth> <MyProfile /> </Auth> } />
       </Routes>
 
-    </AppContext.Provider>
+    {/* </AppContext.Provider> */}
   </ThemeProvider>
 
   );
