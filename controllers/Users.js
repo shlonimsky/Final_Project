@@ -17,48 +17,18 @@ export const getUsers = async (req,res) => {
 }
 
 export const getMyProfile = async (req,res) => {
+    
     try{
         const user_info = await UserInfo.findAll({
             where : {
                 user_id : req.params.id
             }
         });
-        console.log("user in getProfile",user_info)
         if ( user_info.length > 0) res.json(user_info[0])
-        else throw Error("user not found")
+        else res.status(204).json({user_id:req.params.id})
     } catch (err){
         console.log("my profile error => ",err)
         res.status(403).json({msg : err.message})
-    }
-}
-
-
-export const login = async (req,res) => {
-    try{
-        const user = await Users.findAll({
-            where : {
-                email : req.body.email
-            }
-        })
-        // console.log(user)
-        const match = await bcrypt.compare(req.body.password, user[0].password)
-        if( !match ) return res.status(400).json({msg : "Wrong password"})
-
-        const userID = user[0].id;
-        const email = user[0].email;
-        const accessToken = jwt.sign({userID,email}, process.env.ACCESS_TOKEN_SECRET,{
-            expiresIn : '60s'
-        })
-
-        res.cookie('accessToken', accessToken, {
-            httpOnly : true,
-            maxAge : 60*1000
-        })
-   
-        res.json({accessToken,userID,email});
-    } catch (err){
-        console.log(err);
-        res.status(404).json({msg : "Email not found"});
     }
 }
 
@@ -120,6 +90,44 @@ export const editMyProfile = async (req,res) => {
     }
 }
 
+export const login = async (req,res) => {
+    try{
+        const user = await Users.findAll({
+            where : {
+                email : req.body.email
+            }
+        })
+        // console.log(user)
+        const match = await bcrypt.compare(req.body.password, user[0].password)
+        if( !match ) return res.status(400).json({msg : "Wrong password"})
+
+        const userID = user[0].id;
+        const email = user[0].email;
+        const accessToken = jwt.sign({userID,email}, process.env.ACCESS_TOKEN_SECRET,{
+            expiresIn : '60s'
+        })
+
+        res.cookie('accessToken', accessToken, {
+            httpOnly : true,
+            maxAge : 60*1000
+        })
+   
+        res.json({accessToken,userID,email});
+    } catch (err){
+        console.log(err);
+        res.status(404).json({msg : "Email not found"});
+    }
+}
+
+
+export const logOut = (req,res) => {
+    const accessToken = req.cookies.accessToken;
+    if(!accessToken) return res.status(204).json({msg:'cleared'})
+    res.clearCookie('accessToken');
+    res.status(200).json({msg:'cleared'});
+}
+
+
 export const register = async (req,res) => {
     const {email , password} = req.body;
     const salt = await bcrypt.genSalt();
@@ -145,6 +153,6 @@ export const register = async (req,res) => {
     }
 }
 
-export const editProfile = async (req,res) => {
-    const {user_id, first_name, last_name, phone} = req.body
-}
+// export const editProfile = async (req,res) => {
+//     const {user_id, first_name, last_name, phone} = req.body
+// }

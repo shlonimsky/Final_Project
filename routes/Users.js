@@ -1,29 +1,30 @@
 import express from "express";
-import { register, login, getUsers, getMyProfile, postMyProfile, editMyProfile } from "../controllers/Users.js";
+import { register, login, getMyProfile, postMyProfile, editMyProfile, logOut } from "../controllers/Users.js";
 import {VerifyToken} from '../middlewares/verifytoken.js';
 import jwt from 'jsonwebtoken';
 const routerUsers = express.Router();
 
 routerUsers.post('/register', register);
 routerUsers.post('/login', login);
-routerUsers.get('/users', VerifyToken, getUsers);
-routerUsers.post('/cabinet/:id/set', postMyProfile)
-routerUsers.put('/cabinet/:id/set', editMyProfile)
+// routerUsers.get('/users', VerifyToken, getUsers);
+routerUsers.post('/cabinet/:id/set', VerifyToken, postMyProfile)
+routerUsers.put('/cabinet/:id/set', VerifyToken, editMyProfile)
 routerUsers.get('/cabinet/:id',VerifyToken, getMyProfile)
+routerUsers.delete('/logout', logOut)
 
 routerUsers.get('/token', VerifyToken, (req,res) => {
+    console.log(req)
     const userID = req.id;
     const email = req.email;
     const accessToken = jwt.sign({userID,email}, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn : '60s'
+        expiresIn : '24h'
     })
 
     res.cookie('accessToken', accessToken,{
         httpOnly : true,
-        maxAge : 60*1000
+        maxAge : 24*60*60*1000
     })
-    console.log("userID,email in token",userID,email);
-    res.status(200).json({msg : "ok",userID,email})
+    res.status(200).json({ accessToken })
 })
 
 export default routerUsers

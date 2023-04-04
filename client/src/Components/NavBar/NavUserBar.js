@@ -1,52 +1,47 @@
-import IconButton from '@mui/material/IconButton';
-import { Badge } from '@mui/material';
+import { Avatar, Badge, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import Avatar from '@mui/material/Avatar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useSelector} from 'react-redux';
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import {useSelector, useDispatch} from 'react-redux';
+import axios from 'axios';
+import {ifUserAuthorized} from '../../Redux/actions'
 
 const NavUserBar = (props) => {
-  const navigate = useNavigate()
-  const user = useSelector(state => state.user)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
   console.log("user in nav",user)
+
   const menuId = 'primary-search-account-menu';
-  const handleProfileMenuOpen = (e) => setAnchorEl(e.currentTarget);
-  const [anchorElNav, setAnchorElNav] = useState(null);
+  
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
+  const handleProfileMenuOpen = (e) => setAnchorEl(e.currentTarget);
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const handleOpenUserMenu = (e) => setAnchorElUser(e.currentTarget);
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const handleCloseUserMenu = () => setAnchorElUser(null);
+
   //for second
   const [anchorEl, setAnchorEl] = useState(null);
 
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
+  const logOut = async () => {
+    try{
+      const res = await axios.delete('/logout')
+      if (res.status === 200 || res.status === 204) {
+        dispatch(ifUserAuthorized(false))
+        navigate('/login')
+      }
+    } catch(err){
+      console.log("err in logout",err)
+      navigate("/login")
+
+    }
+  }
 
   return (
     <>
@@ -101,7 +96,7 @@ const NavUserBar = (props) => {
           <Typography textAlign="center" onClick={() => navigate(`/my_jobs/${user.userID}`)}>My jobs</Typography>
         </MenuItem>
         <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign="center" onClick={() => navigate(`/login`)}>Log Out</Typography>
+          <Typography textAlign="center" onClick={logOut}>Log Out</Typography>
         </MenuItem>
         {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>

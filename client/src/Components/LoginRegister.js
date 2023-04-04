@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { ifUserAuthorized } from '../Redux/actions';
-import { setUser } from '../Redux/actions';
+import { setUser, setUserById } from '../Redux/actions';
 import logo from '../logo.png';
 import axios from 'axios';
 
@@ -37,10 +37,8 @@ const LoginRegister = (props) => {
                     try{
                         const {data} = await axios.post('/login',{email,password})
                         console.log("data in LoginRegister  in func",data)
-                        //setAccessToken
-                        dispatch(ifUserAuthorized(true))
-                        dispatch(setUser())
-                        localStorage.setItem("token",JSON.stringify(data.accessToken))
+                        dispatch(ifUserAuthorized(true,data.accessToken))
+                        dispatch(setUserById(data.userID,data.email))
                         setMsg(data.msg)
                         navigate(`/cabinet/${data.userID}`)
                     } catch (err){
@@ -55,7 +53,7 @@ const LoginRegister = (props) => {
                     const res = await axios.post('/register', {email,password})
                     console.log(res.data)
                     //setAccessToken
-                    localStorage.setItem("token",JSON.stringify(res.data))
+                    // localStorage.setItem("token",JSON.stringify(res.data))
                     setMsg(res.data.msg)
                     navigate('/login')
                 } catch (err) {
