@@ -89,3 +89,37 @@ export const setUserById = (id,email) => async (dispatch) => {
 //     payload: obj,
 //   };
 // };
+
+export const postNewUser = (user_id, email, obj) => async (dispatch,getState) => {
+  try {
+    // const {email,user_id} = getState().user
+    const res = await axios.post(`/cabinet/${user_id}/set`,{...obj})
+    return dispatch({
+      type: "SET_USER",
+      payload: { ...obj,email,user_id}
+  })
+  } catch (err) {
+    console.log(err);
+    return dispatch({
+      type: "SET_USER",
+      payload: { ...obj,email,user_id}
+  })
+  }
+}
+
+export const updateUserInfo = (user_id, email, obj) => async (dispatch,getState) => {
+  try {
+    // const {email,user_id} = getState().user
+    const res = await axios.put(`/cabinet/${user_id}/set`,{...obj})
+    return dispatch({
+      type: "SET_USER",
+      payload: { ...obj,email,user_id}
+  })
+  } catch (err) {
+    console.log(err.data);
+    return dispatch({
+      type: "SET_USER",
+      payload: { ...obj,email,user_id}
+  })
+}
+}

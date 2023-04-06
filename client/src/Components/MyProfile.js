@@ -10,8 +10,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from "react";
+import { postNewUser, updateUserInfo } from "../Redux/actions";
 // import MyProfileInput from "./MyProfileInput";
-const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 
 
@@ -54,12 +54,10 @@ const MyProfile = (props) => {
 
     const saveData = (e) => {
         if ( first_name ==="" || last_name==="" || city==="" || birth_date==="Invalid Date" || gender==="" ) return e.preventDefault()
-
-        // if ( (!first_name || first_name==="") && !last_name && !city && !birth_date && !gender) return e.preventDefault()
         setIsEdit(!isEdit)
         console.log({first_name,last_name,city,birth_date,gender,info});
-        // if (isNewUser) dispatch(postNewUser(user.user_id,{first_name,last_name,city,birth_date,gender,info}))
-        // else dispatch(updateUserInfo(user.user_id,{first_name,last_name,city,birth_date,gender,info}))
+        if (isNewUser) dispatch(postNewUser(user.user_id, user.email,{first_name,last_name,city,birth_date,gender,info}))
+        else dispatch(updateUserInfo(user.user_id, user.email,{first_name,last_name,city,birth_date,gender,info}))
     }
 
     return (
@@ -68,13 +66,20 @@ const MyProfile = (props) => {
             <Box sx={{ width: { xs: "100%", md: "30%", lg: "50%" }, }}>
                 <Avatar alt={user.first_name ? "Unknown" : user.first_name} src="" onClick={changeAvatar} />
 
-                {isEdit ? <></> :
+                {/* {isEdit ? <></> :
                     <Fab color="secondary" aria-label="edit" onClick={() => setIsEdit(!isEdit)}>
                         <EditIcon />
                     </Fab>
-                }
+                } */}
 
                 <FormControl>
+
+                {isEdit ? <></> :
+                    <Fab color="secondary" aria-label="edit" onClick={() => setIsEdit(!isEdit)}>
+                        <EditIcon color="textColor"/>
+                    </Fab>
+                }
+
                     {isEdit
                         ? <TextField sx={{ m: 1, width: '25ch', bgcolor: 'white' }} id='first_name' variant="standard"
                             required
@@ -89,7 +94,6 @@ const MyProfile = (props) => {
 
                     {isEdit
                         ? <TextField sx={{ m: 1, width: '25ch', bgcolor: 'white' }} id='last_name' variant="standard"
-                            // disabled={!isEdit}
                             size="small"
                             defaultValue={last_name ? last_name : "Last name"}
                             error={last_name === "" ? true : false}
