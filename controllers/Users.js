@@ -33,20 +33,13 @@ export const getMyProfile = async (req,res) => {
 }
 
 export const postMyProfile = async (req,res) => {
-    const {fname, lname, city, birth, gender, info} = req.body;
+    const {first_name, last_name, city, birth_date, gender, info} = req.body;
 
     try{
         // const d = new Date(birth)
         // console.log("**** d =>",d)
         await UserInfo.create({
-            user_id : req.params.id,
-            first_name : fname,
-            last_name : lname,
-            city : city,
-            birth_date : birth,
-            gender : gender,
-            info : info
-        });
+            user_id : req.params.id, first_name, last_name, city, birth_date, gender, info });
         res.json({msg : "ok"});
     } catch (err){
         console.log("ERROR => ", err)
@@ -64,16 +57,13 @@ export const postMyProfile = async (req,res) => {
 }
 
 export const editMyProfile = async (req,res) => {
-    const {fname, lname, city, birth, gender, info} = req.body;
+    const {first_name, last_name, city, birth_date, gender, info} = req.body;
     try {
-        await UserInfo.update({
-            first_name : fname,
-            last_name : lname,
-            city : city,
-            birth_date : birth,
-            gender : gender,
-            info : info
-        }, {where : {user_id : req.params.id} });
+        await UserInfo.update({ 
+            first_name, last_name, city, birth_date, gender, info
+        }, {
+            where : {user_id : req.params.id} 
+        });
         res.json({msg : "ok"});
     } catch (err) {
         console.log("ERROR => ", err)

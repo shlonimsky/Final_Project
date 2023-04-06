@@ -16,15 +16,14 @@ const NavUserBar = (props) => {
   const menuId = 'primary-search-account-menu';
   
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+
 
   const handleProfileMenuOpen = (e) => setAnchorEl(e.currentTarget);
 
   const handleOpenUserMenu = (e) => setAnchorElUser(e.currentTarget);
 
   const handleCloseUserMenu = () => setAnchorElUser(null);
-
-  //for second
-  const [anchorEl, setAnchorEl] = useState(null);
 
 
 
@@ -87,22 +86,18 @@ const NavUserBar = (props) => {
         onClose={handleCloseUserMenu}
       >
         <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign="center" onClick={() => navigate(`/cabinet/${user.userID}`)}>My profile</Typography>
+          <Typography textAlign="center" onClick={() => navigate(`/cabinet/${user.user_id}`)}>My profile</Typography>
         </MenuItem>
         <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign="center" onClick={() => navigate(`/my_tasks/${user.userID}`)}>My tasks</Typography>
+          <Typography textAlign="center" onClick={() => navigate(`/my_tasks/${user.user_id}`)}>My tasks</Typography>
         </MenuItem>
         <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign="center" onClick={() => navigate(`/my_jobs/${user.userID}`)}>My jobs</Typography>
+          <Typography textAlign="center" onClick={() => navigate(`/my_jobs/${user.user_id}`)}>My jobs</Typography>
         </MenuItem>
         <MenuItem onClick={handleCloseUserMenu}>
           <Typography textAlign="center" onClick={logOut}>Log Out</Typography>
         </MenuItem>
-        {/* {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))} */}
+
       </Menu>
     </>
   )
