@@ -4,6 +4,7 @@ import cors from 'cors';
 import db from "./config/database.js";
 import routerUsers from './routes/Users.js';
 import routerCategories from "./routes/Categoties.js";
+import routerTasks from "./routes/Tasks.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -13,7 +14,7 @@ app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({extended:true}));
 
-
+app.use(routerTasks)
 app.use(routerUsers)
 app.use(routerCategories)
 

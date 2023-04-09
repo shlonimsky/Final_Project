@@ -22,7 +22,7 @@ const DropDownMenu = (props) => {
         onClick={handleOpenNavMenu}>
         <MenuIcon />
       </IconButton>
-
+      <div>
       <Menu id="menu-appbar" anchorEl={anchorElNav}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
         keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left' }}
@@ -38,6 +38,8 @@ const DropDownMenu = (props) => {
         </MenuItem>
 
       </Menu>
+      </div>
+     
 
     </Box>
   )

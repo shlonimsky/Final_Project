@@ -7,7 +7,8 @@ import NavBar from "./Components/NavBar/NavBar";
 import Home from './Components/Home';
 import LoginRegister from "./Components/LoginRegister";
 import Auth from './Auth/Auth'
-import MyProfile from "./Components/MyProfile";
+import MyProfileContainer from "./Components/MyProfile/MyProfileContainer";
+import Task from "./Components/Task";
 import { verifyTokenAfterRefresh } from "./Redux/actions";
 import './style.css'
 
@@ -46,7 +47,8 @@ function App() {
         <Route path="/" element={ <Home /> }/>
         <Route path="/login" element={ <LoginRegister title = {'login'}/>} />
         <Route path="/register" element={ <LoginRegister title = {'register'}/>} />
-        <Route path="/cabinet/:id" element={<Auth> <MyProfile /> </Auth> } />
+        <Route path="/cabinet/:id" element={<Auth> <MyProfileContainer /> </Auth> } />
+        <Route path="/task/:id" element={ <Task /> } />
       </Routes>
 
   </ThemeProvider>

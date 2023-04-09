@@ -10,7 +10,7 @@ export const VerifyToken = (req,res,next) => {
     if( !accessToken) return res.status(401).json({msg : "permission denied!"});
     jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err,decoded) => {
         if(err) return res.status(403).json({msg : "Verify token failed!"})
-        console.log(req);
+        // console.log(req);
         try{
             const user = await Users.findAll({
                 where : {

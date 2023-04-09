@@ -5,14 +5,25 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const getUsers = async (req,res) => {
+export const getUserByID = async (req,res) => {
     try{
-        const users = await Users.findAll({
-            attributes : ["id", "email"]
+        const user = await UserInfo.findAll({
+            where : {user_id: req.params.id}
         });
-        res.json(users);
+        res.json(user[0]);
     } catch(err){
         res.status(404).json({msg : "Users not found"})
+    }
+}
+
+export const getUserAsHelper = async (req,res) => {
+    try {
+        const helper = await UserInfo.findAll({
+            where: {id: req.params.id}
+        })
+        res.json(helper[0])
+    } catch (err) {
+        res.status(404).json({msg: "Not found"})
     }
 }
 
@@ -134,7 +145,7 @@ export const register = async (req,res) => {
         console.log(err.message)
         if (!err.errors) return res.status(403).json({msg : err.message})
         const {type,path,validatorKey,validatorName} = err.errors[0]
-        console.log("err=>", err.errors[0],"**********************");
+        // console.log("err=>", err.errors[0],"**********************");
         switch (type){
             case "Validation error" : return res.status(403).json({msg : `Please, enter the correct ${path}`})
             case "unique violation" : return res.status(403).json({msg : "Email already exists!"});

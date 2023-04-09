@@ -69,7 +69,7 @@ const NavUserBar = (props) => {
 
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Avatar alt={user.first_name || user.email} src="/static/images/avatar/2.jpg" />
         </IconButton>
       </Tooltip>
       <Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser}

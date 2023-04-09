@@ -21,7 +21,8 @@ const Users = db.define("users",{
         validate : {
             notEmpty: true
         }
-    }
+    },
+    created_date: DataTypes.DATEONLY
 }, {
     timestamps : false,
     freezeTableName : true,

@@ -1,19 +1,20 @@
 import express from "express";
-import { register, login, getMyProfile, postMyProfile, editMyProfile, logOut } from "../controllers/Users.js";
+import { register, login, getUserByID, getUserAsHelper, getMyProfile, postMyProfile, editMyProfile, logOut } from "../controllers/Users.js";
 import {VerifyToken} from '../middlewares/verifytoken.js';
 import jwt from 'jsonwebtoken';
 const routerUsers = express.Router();
 
 routerUsers.post('/register', register);
 routerUsers.post('/login', login);
-// routerUsers.get('/users', VerifyToken, getUsers);
+routerUsers.get('/user/:id', getUserByID);
+routerUsers.get('/helper/:id', getUserAsHelper);
 routerUsers.post('/cabinet/:id/set', VerifyToken, postMyProfile)
 routerUsers.put('/cabinet/:id/set', VerifyToken, editMyProfile)
 routerUsers.get('/cabinet/:id',VerifyToken, getMyProfile)
 routerUsers.delete('/logout', logOut)
 
 routerUsers.get('/token', VerifyToken, (req,res) => {
-    console.log(req)
+    // console.log(req)
     const userID = req.id;
     const email = req.email;
     const accessToken = jwt.sign({userID,email}, process.env.ACCESS_TOKEN_SECRET, {

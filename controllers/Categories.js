@@ -15,3 +15,14 @@ export const getCategories = async (req,res) => {
         res.status(404).json({msg : "Error"})
     }
 }
+
+export const getCategory = async (req,res) => {
+    try {
+        const category = await Categories.findAll({
+            where: {id: req.params.id}
+        })
+        res.json(category[0])
+    } catch (err) {
+        res.status(404).json({msg: "Not found"})
+    }
+}

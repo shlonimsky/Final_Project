@@ -123,3 +123,44 @@ export const updateUserInfo = (user_id, email, obj) => async (dispatch,getState)
   })
 }
 }
+
+export const getMyTasks = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/my_tasks/${id}`)
+    if (res.status===204) dispatch({
+        type : 'SET_TASKS',
+        payload : null
+      })
+    else dispatch({
+      type : 'SET_TASKS',
+      payload : res.data
+    })
+  } catch (err) {
+    console.log(err);
+    return (
+      dispatch({
+        type : 'SET_TASKS',
+        payload : null
+      })
+    )
+  }
+}
+export const getMyJobs = (id) => async (dispatch) => {
+  console.log("id in action",id);
+  try {
+    const res = await axios.get(`/my_jobs/${id}`)
+    if (res.status===204) dispatch({
+        type : 'SET_TASKS',
+        payload : null
+      })
+    else dispatch({
+      type : 'SET_JOBS',
+      payload : res.data
+    })
+  } catch (err) {
+      dispatch({
+        type : 'SET_JOBS',
+        payload : null
+      })
+  }
+}
