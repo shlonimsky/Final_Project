@@ -23,23 +23,37 @@ const DropDownMenu = (props) => {
         <MenuIcon />
       </IconButton>
       <div>
-      <Menu id="menu-appbar" anchorEl={anchorElNav}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
-        keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-        open={Boolean(anchorElNav)} sx={{ display: { xs: 'block', md: 'none' } }}
-        onClose={handleCloseNavMenu}>
+        <Menu id="menu-appbar" anchorEl={anchorElNav}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
+          keepMounted transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          open={Boolean(anchorElNav)} sx={{ display: { xs: 'block', md: 'none' } }}
+          onClose={handleCloseNavMenu}
+        >
 
-        <MenuItem key={1} onClick={handleCloseNavMenu} >
-          <Typography textAlign="center" onClick={() => navigate('/search_helper')}>Find a helper</Typography>
-        </MenuItem>
+          <MenuItem key={1} onClick={handleCloseNavMenu}
+            sx={{
+              backgroundColor: "white",
+              "&:hover": {
+                backgroundColor: "#e6e6e6",
+              }
+            }} >
+            <Typography textAlign="center" onClick={() => navigate('/search_helper')}>Find a helper</Typography>
+          </MenuItem>
 
-        <MenuItem key={2} onClick={handleCloseNavMenu} >
-          <Typography textAlign="center" onClick={() => navigate('/search_task')}>Become a helper</Typography>
-        </MenuItem>
+          <MenuItem
+            sx={{backgroundColor: "white", "&:hover": {backgroundColor: "#e6e6e6"}}}
+            key={2} onClick={handleCloseNavMenu} >
+            <Typography textAlign="center" onClick={() => navigate('/search_task')}>Become a helper</Typography>
+          </MenuItem>
 
-      </Menu>
+          <MenuItem sx={{backgroundColor: "white", "&:hover": {backgroundColor: "#e6e6e6"}}}
+            key={3} onClick={handleCloseNavMenu} >
+            <Typography textAlign="center" onClick={() => navigate('/create_task')}>Create a new task</Typography>
+          </MenuItem>
+
+        </Menu>
       </div>
-     
+
 
     </Box>
   )

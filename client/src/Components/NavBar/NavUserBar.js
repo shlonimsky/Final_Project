@@ -3,18 +3,18 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import {ifUserAuthorized} from '../../Redux/actions'
+import { ifUserAuthorized } from '../../Redux/actions'
 
 const NavUserBar = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-  console.log("user in nav",user)
+  console.log("user in nav", user)
 
   const menuId = 'primary-search-account-menu';
-  
+
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -29,14 +29,14 @@ const NavUserBar = (props) => {
 
 
   const logOut = async () => {
-    try{
+    try {
       const res = await axios.delete('/logout')
       if (res.status === 200 || res.status === 204) {
         dispatch(ifUserAuthorized(false))
         navigate('/login')
       }
-    } catch(err){
-      console.log("err in logout",err)
+    } catch (err) {
+      console.log("err in logout", err)
       navigate("/login")
 
     }
@@ -85,16 +85,36 @@ const NavUserBar = (props) => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign="center" onClick={() => navigate(`/cabinet/${user.user_id}`)}>My profile</Typography>
+        <MenuItem onClick={handleCloseUserMenu} sx={{
+          backgroundColor: "white",
+          "&:hover": {
+            backgroundColor: "#e6e6e6",
+          }
+        }} >
+          <Typography textAlign="center" onClick={() => navigate(`/cabinet/${user.user_id}`)}  >My profile</Typography>
         </MenuItem>
-        <MenuItem onClick={handleCloseUserMenu}>
+        <MenuItem onClick={handleCloseUserMenu} sx={{
+          backgroundColor: "white",
+          "&:hover": {
+            backgroundColor: "#e6e6e6",
+          }
+        }} >
           <Typography textAlign="center" onClick={() => navigate(`/my_tasks/${user.user_id}`)}>My tasks</Typography>
         </MenuItem>
-        <MenuItem onClick={handleCloseUserMenu}>
+        <MenuItem onClick={handleCloseUserMenu} sx={{
+          backgroundColor: "white",
+          "&:hover": {
+            backgroundColor: "#e6e6e6",
+          }
+        }} >
           <Typography textAlign="center" onClick={() => navigate(`/my_jobs/${user.user_id}`)}>My jobs</Typography>
         </MenuItem>
-        <MenuItem onClick={handleCloseUserMenu}>
+        <MenuItem onClick={handleCloseUserMenu} sx={{
+          backgroundColor: "white",
+          "&:hover": {
+            backgroundColor: "#e6e6e6",
+          }
+        }} >
           <Typography textAlign="center" onClick={logOut}>Log Out</Typography>
         </MenuItem>
 

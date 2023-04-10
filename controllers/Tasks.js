@@ -42,9 +42,8 @@ export const getMyJobs = async (req,res) => {
         const myJobs = await Tasks.findAll({
             where: {helper_id: req.params.id}
         })
-        res.json(myJobs)
-        // if(myJobs.length>0) 
-        // else res.status(204).json({msg : "you don't have any jobs"})
+        if(myJobs.length>0) res.json(myJobs)
+        else res.status(204).json({msg : "you don't have any jobs"})
     } catch (err) {
         console.log("error in createTask ===>",err)
         res.status(404).json({msg : "Oops, something went wrong! Try again"})

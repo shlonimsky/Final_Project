@@ -9,7 +9,10 @@ import LoginRegister from "./Components/LoginRegister";
 import Auth from './Auth/Auth'
 import MyProfileContainer from "./Components/MyProfile/MyProfileContainer";
 import Task from "./Components/Task";
-import { verifyTokenAfterRefresh } from "./Redux/actions";
+import AllMyTasks from "./Components/AllMyTasks";
+import AllMyJobs from "./Components/AllMyJobs";
+import CreateTask from "./Components/CreateTask";
+import { verifyTokenAfterRefresh, getAllCategories, getAllCities } from "./Redux/actions";
 import './style.css'
 
 
@@ -24,7 +27,11 @@ const theme = createTheme({
     textColor : {
       main : "#ffffff"
     },
-    background : "#f2f2f2"
+    background : {
+      default : "#ffffff",
+      paper : "#ffffff",
+      selected: '#e6e6e6'
+    }
   }
 });
 
@@ -35,6 +42,8 @@ function App() {
   useEffect(() => {
 
     dispatch(verifyTokenAfterRefresh())
+    dispatch(getAllCategories())
+    dispatch(getAllCities())
 
   },[])
 
@@ -49,6 +58,9 @@ function App() {
         <Route path="/register" element={ <LoginRegister title = {'register'}/>} />
         <Route path="/cabinet/:id" element={<Auth> <MyProfileContainer /> </Auth> } />
         <Route path="/task/:id" element={ <Task /> } />
+        <Route path="/my_tasks/:id" element={<Auth> <AllMyTasks /> </Auth>} />
+        <Route path="/my_jobs/:id" element={ <Auth> <AllMyJobs /> </Auth>} />
+        <Route path="/create_task" element={ <Auth> <CreateTask /> </Auth>} />
       </Routes>
 
   </ThemeProvider>
