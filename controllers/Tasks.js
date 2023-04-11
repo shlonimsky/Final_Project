@@ -25,12 +25,12 @@ try {
 }
 
 export const createTask = async (req,res) => {
-    const {user_id,title,description,category_id,city,address,start_date,finish_date,post_date, salary,is_bargain,status,helper_id} = req.body
+    const {user_id, title, description, category_id, city, address, start_date, finish_date, salary, is_bargain} = req.body
     try {
-        await Tasks.create({
-            user_id,title,description,category_id,city,address,start_date,finish_date,post_date, salary,is_bargain,status,helper_id
+        const newTask = await Tasks.create({
+            user_id, title, description, category_id, city, address, start_date, finish_date, salary, is_bargain
         })
-        res.json({msg:"ok"})
+        res.json(newTask)
     } catch (err) {
         console.log("error in createTask ===>",err)
         res.status(403).json({msg : "Oops, something went wrong! Try again"})

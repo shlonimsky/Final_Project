@@ -160,10 +160,13 @@ export const getMyJobs = (id) => async (dispatch) => {
   }
 }
 
-export const creatNewTask = (obj) => {
-    return ({
-      type : 'SET_NEW_TASK',
-      payload : obj
-    })
+// export const saveTewTask = (obj) => async (dispatch,getState) => {
+//   const tasks = getState().tasks || []
+//   console.log("In action",tasks);
+//   tasks.push(obj)
+//   return ({
+//       type : 'SET_NEW_TASK',
+//       payload : tasks
+//   })
   
-}
+// }

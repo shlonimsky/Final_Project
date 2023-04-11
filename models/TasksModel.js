@@ -45,13 +45,11 @@ const Tasks = db.define("tasks",{
         type : DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        timezone: false
     },
     finish_date : {
         type : DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        timezone: false
     },
     post_date : { 
         type : DataTypes.DATEONLY,
@@ -79,6 +77,7 @@ const Tasks = db.define("tasks",{
     status : {
         type : DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'open',
         validate : {
             isIn: [['open', 'in proccess','completed']],
         }

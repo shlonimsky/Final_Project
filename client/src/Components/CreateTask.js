@@ -1,38 +1,69 @@
-import { Box, FormControl, FormLabel, MenuItem, Switch, TextField } from "@mui/material";
+import { Box, Button, FormControl, FormLabel, MenuItem, Switch, TextField } from "@mui/material";
 import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import {useState,useEffect} from 'react';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+// import {createNewTask} from '../Redux/actions'
+dayjs.extend(isSameOrBefore)
+
 
 
 const CreateTask = (props) => {
+    const navigate = useNavigate();
+    // const dispatch = useDispatch();
     const {user, categories, allCities} = useSelector(state => state)
-    const [address, setEddress] = useState(null);
+    const [address, setAddress] = useState(null);
     const [city, setCity] = useState(null);
     const [description, setDescription] = useState(null);
     const [title, setTitle] = useState(null);
+    const [start_date, setStartDate] = useState(null);
     const [finish_date, setFinishDate] = useState(null);
-    const [start_date, setStartDate] = useState(dayjs());
     const [is_bargain, setIsBargein] = useState(false);
     const [salary, setSalary] = useState(null)
-    const [status, setStatus] = useState("open")
-    const [categoryId, setCategoryId] = useState(null)
-    console.log(salary, typeof salary);
-    console.log(start_date);
+    const [category_id, setCategoryId] = useState(null)
+
+    const handleSubmit = () => {
+        if ( user.user_id && address && city && description && title && start_date && finish_date && salary && category_id && dayjs(start_date).isBefore(finish_date) ) {
+                const newTask = {
+                    user_id: user.user_id, title,description, city, address, start_date, finish_date, salary, is_bargain, category_id
+                }
+                console.log(newTask);
+                // dispatch(createNewTask(newTask))
+                fetch('/tasks',{
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newTask)
+                })
+                .then(res => res.json())
+                .then(res => {
+                    // console.log(res);
+                    // dispatch(createNewTask)
+                    navigate(`/task/${res.id}`)
+                })
+                .catch(err => console.log(err))
+            }
+    }
+
 
     return(
         <Box m={1} sx={{position: "relative", position: "static"}}>
             <FormControl sx={{width: "100%"}}>
                 <Box sx={{display: "flex", }} m={1}>
                     <FormLabel sx={{width: "110px"}}>Title *</FormLabel>
-                    <TextField fullWidth helperText="Please, enter the title" onChange={(e) => setTitle(e.target.value)}></TextField>
+                    <TextField fullWidth helperText="Please, enter the title" 
+                    onChange={(e) => setTitle(e.target.value.trim()==="" ? null : e.target.value.trim())}></TextField>
                 </Box>
                 <Box sx={{display: "flex", }} m={1}>
                     <FormLabel sx={{width: "110px"}}>Description*</FormLabel>
-                    <TextField fullWidth helperText="Please, discribe the work should be done" onChange={(e) => setDescription(e.target.value)}></TextField>
+                    <TextField fullWidth helperText="Please, discribe the work should be done" 
+                    onChange={(e) => setDescription(e.target.value)}></TextField>
                 </Box>
 
                 <Box sx={{display: "flex", }} m={1}>
@@ -58,28 +89,52 @@ const CreateTask = (props) => {
                         : <MenuItem value={''}></MenuItem>}
                     </TextField>
                 </Box>
+
                 <Box sx={{display: "flex",}} m={1}>
                 <FormLabel sx={{width: "110px"}}>Address *</FormLabel>
-                    <TextField fullWidth helperText="The address will be shown to you and to helper"></TextField>
+                    <TextField fullWidth helperText="The address will be shown to you and to helper"
+                    onChange={(e) => setAddress(e.target.value.trim()==='' ? null : e.target.value.trim())}
+                    ></TextField>
                 </Box>
 
                 <Box sx={{display: "flex",}} m={1}>
                     <FormLabel sx={{width: "110px"}}>Payment *</FormLabel>
-                    <TextField fullWidth type={"number"} helperText="Pleace, enter the amount you ready to pay" onChange={(e) => setSalary(e.target.value)}></TextField>
+                    <TextField fullWidth type={"number"} helperText="Pleace, enter the amount you ready to pay" 
+                    onChange={(e) => {
+                        /^[0-9]+$/.test(e.target.value) ? setSalary(+e.target.value) : setSalary(null)
+                        }}></TextField>
                 </Box>
                 <Box sx={{display: "flex",}} >
                     <FormLabel sx={{width: "110px"}}>Open to negotiations</FormLabel>
-                    <Switch checked={is_bargain} onChange={(e) => setIsBargein(e.target.checked)} />
+                    <Switch  onChange={(e) => setIsBargein(e.target.checked)} />
                 </Box>
                 
-                <Box>
+                <Box sx={{display: "flex",}} m={1}>
+                    <FormLabel sx={{width: "110px"}}>Start date</FormLabel>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimePicker    
-                        value={start_date}
-                        onChange={(e) => setStartDate(e)} />
+                        <DateTimePicker   
+                        fullWidth 
+                        value={dayjs(start_date)}
+                        onChange={newDate => {
+                            dayjs().isSameOrBefore(newDate,'day') ? setStartDate(dayjs(newDate).format()) : setStartDate(null)
+                            }} />
                     </LocalizationProvider>
                 </Box>
 
+                <Box sx={{display: "flex",}} m={1}>
+                    <FormLabel sx={{width: "110px"}}>Complete date</FormLabel>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} fullWidth>
+                        <DateTimePicker 
+                        fullWidth
+                        value={dayjs(finish_date)}
+                        onChange={(newDate) => dayjs(start_date).isSameOrBefore(newDate,'day') ? setFinishDate(newDate.format()) : setFinishDate(null) } />
+                    </LocalizationProvider>
+                </Box>
+
+                <Box sx={{display: "flex",}} m={1}>
+                   <Button onClick={() => navigate('/')}>Cancel</Button>
+                   <Button onClick={handleSubmit}>Submit</Button>
+                </Box>
 
             </FormControl>
         </Box>
