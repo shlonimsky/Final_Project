@@ -6,6 +6,7 @@ import routerUsers from './routes/Users.js';
 import routerCategories from "./routes/Categoties.js";
 import routerTasks from "./routes/Tasks.js";
 import routerCities from "./routes/Cities.js";
+import routerOffers from "./routes/Offers.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(routerTasks)
 app.use(routerUsers)
 app.use(routerCategories)
 app.use(routerCities)
+app.use(routerOffers)
 
 
 
