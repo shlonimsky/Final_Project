@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Box, Breadcrumbs, Button, FormControl, TextField, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Button, CircularProgress, FormControl, TextField, Typography } from "@mui/material";
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -67,9 +67,9 @@ const Task = (props) => {
 
 
     return(
-        <Box >
-            { !task  ? <p>Loading</p>  :  (
-                <>
+            !task  
+            ? <Box sx={{ display: 'flex', justifyContent: "center", alignItems: "center", height: "70vh" }}> <CircularProgress></CircularProgress> </Box>
+            :  <Box >
                   <Box sx={{display: "flex", justifyContent: "space-between"}} p={2}>
                     <div>
                     <Typography variant="h3" component="h3">{task.title}</Typography>
@@ -122,12 +122,8 @@ const Task = (props) => {
                 </FormControl>
 
 
-                </>
+                </Box>
               
-
-
-            )}
-        </Box>
     )
 }
 

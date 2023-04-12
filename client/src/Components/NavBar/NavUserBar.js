@@ -1,4 +1,4 @@
-import { Avatar, Badge, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Avatar, Badge, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useState } from 'react';
@@ -26,8 +26,6 @@ const NavUserBar = (props) => {
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
 
-
-
   const logOut = async () => {
     try {
       const res = await axios.delete('/logout')
@@ -43,7 +41,7 @@ const NavUserBar = (props) => {
   }
 
   return (
-    <>
+    <Box sx={{display: "flex"}}>
       <IconButton size="large" aria-label="show 4 new mails" color="inherit">
         <Badge badgeContent={4} color="error">
           <MailIcon />
@@ -85,41 +83,22 @@ const NavUserBar = (props) => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <MenuItem onClick={handleCloseUserMenu} sx={{
-          backgroundColor: "white",
-          "&:hover": {
-            backgroundColor: "#e6e6e6",
-          }
-        }} >
+
+        <MenuItem onClick={handleCloseUserMenu} >
           <Typography textAlign="center" onClick={() => navigate(`/cabinet/${user.user_id}`)}  >My profile</Typography>
         </MenuItem>
-        <MenuItem onClick={handleCloseUserMenu} sx={{
-          backgroundColor: "white",
-          "&:hover": {
-            backgroundColor: "#e6e6e6",
-          }
-        }} >
+        <MenuItem onClick={handleCloseUserMenu} >
           <Typography textAlign="center" onClick={() => navigate(`/my_tasks/${user.user_id}`)}>My tasks</Typography>
         </MenuItem>
-        <MenuItem onClick={handleCloseUserMenu} sx={{
-          backgroundColor: "white",
-          "&:hover": {
-            backgroundColor: "#e6e6e6",
-          }
-        }} >
+        <MenuItem onClick={handleCloseUserMenu}  >
           <Typography textAlign="center" onClick={() => navigate(`/my_jobs/${user.user_id}`)}>My jobs</Typography>
         </MenuItem>
-        <MenuItem onClick={handleCloseUserMenu} sx={{
-          backgroundColor: "white",
-          "&:hover": {
-            backgroundColor: "#e6e6e6",
-          }
-        }} >
+        <MenuItem onClick={handleCloseUserMenu} >
           <Typography textAlign="center" onClick={logOut}>Log Out</Typography>
         </MenuItem>
 
       </Menu>
-    </>
+    </Box>
   )
 }
 export default NavUserBar
