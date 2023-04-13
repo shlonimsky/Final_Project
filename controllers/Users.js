@@ -1,5 +1,6 @@
-import Users from "../models/UsersModels.js";
-import UserInfo from "../models/UsersInfoModel.js";
+// import Users from "../models/UsersModels.js";
+// import UserInfo from "../models/UsersInfoModel.js";
+import {Users, UserInfo} from '../models/UsersModels.js'
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';

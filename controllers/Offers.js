@@ -49,14 +49,24 @@ export const setReadOffers = async (req,res) => {
 }
 
 export const postNewOffer = async (req,res) => {
-    const {task_id,helper_id,price,comment} = req.body
+    const {task_id,helper_id,price,comment, first_name} = req.body
     try {
         const newOffer = await Offers.create({
-            task_id,helper_id,price,comment
+            task_id,helper_id,price,comment, first_name
         })
         res.json(newOffer)
     } catch (err) {
         console.log(err);
+        res.status(404).json({msg : "not found"})
+    }
+}
+export const deleteOfferById = async (req,res) => {
+    try {
+        const remove = await Offers.destroy({
+            where: {id: req.params.id}
+        })
+        res.json(remove)
+    } catch (err) {
         res.status(404).json({msg : "not found"})
     }
 }

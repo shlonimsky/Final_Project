@@ -18,9 +18,19 @@ const Offers = db.define("offers",{
             notEmpty: true
         }
     },
+    first_name : {
+        type : DataTypes.STRING,
+        allowNull: false,
+        validate : {
+            notEmpty: true,
+            is: /^[A-Za-z\s]*$/
+        }
+    },
+
     price: DataTypes.INTEGER,
     comment: DataTypes.TEXT,
     is_read: DataTypes.BOOLEAN,
+    post_date : DataTypes.DATEONLY
 },{
     timestamps : false,
     freezeTableName : true,

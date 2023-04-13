@@ -8,7 +8,7 @@ import Home from './Components/Home';
 import LoginRegister from "./Components/LoginRegister";
 import Auth from './Auth/Auth'
 import MyProfileContainer from "./Components/MyProfile/MyProfileContainer";
-import Task from "./Components/Task";
+import Task from "./Components/Task/Task";
 import AllMyTasks from "./Components/AllMyTasks";
 import AllMyJobs from "./Components/AllMyJobs";
 import CreateTask from "./Components/CreateTask";

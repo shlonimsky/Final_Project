@@ -4,7 +4,7 @@ import { getAllCities } from '../controllers/Cities.js';
 // import { VerifyToken } from '../middlewares/verifytoken.js';
 const routerCities = express.Router();
 
-routerCities.get('/api/cities',getAllCities)
+routerCities.get('/cities',getAllCities)
 
 
 
