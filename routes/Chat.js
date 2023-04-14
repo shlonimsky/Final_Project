@@ -3,12 +3,12 @@ import { getAllMyConversations, createNewConversation, getAllMessagesByConv, sen
 // import { VerifyToken } from '../middlewares/verifytoken.js';
 const routerChat = express.Router();
 
-routerChat.post('/conversations',getAllMyConversations)
-routerChat.post('/conversations/new', createNewConversation)
 
-routerChat.get('/messages/:user1_id/:user2_id', getAllMessagesByConv)
-routerChat.post('/messages/new', sendNewMessage)
+routerChat.put('/conversations', getAllMyConversations)
+routerChat.post('/conversations', createNewConversation)
 
+routerChat.put('/messages', getAllMessagesByConv)
+routerChat.post('/messages', sendNewMessage)
 
 
 export default routerChat

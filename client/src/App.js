@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect, createContext, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {io} from 'socket.io-client'
 
 import NavBar from "./Components/NavBar/NavBar";
 import Home from './Components/Home';
@@ -12,6 +13,7 @@ import Task from "./Components/Task/Task";
 import AllMyTasks from "./Components/AllMyTasks";
 import AllMyJobs from "./Components/AllMyJobs";
 import CreateTask from "./Components/CreateTask";
+import ChatContainer from "./Components/Chat/ChatContainer";
 import { verifyTokenAfterRefresh, getAllCategories, getAllCities } from "./Redux/actions";
 import './style.css'
 
@@ -38,7 +40,6 @@ const theme = createTheme({
 
 function App() {
   const dispatch = useDispatch()
-
   useEffect(() => {
 
     dispatch(verifyTokenAfterRefresh())
@@ -46,6 +47,8 @@ function App() {
     dispatch(getAllCities())
 
   },[])
+
+
 
   return (
   <ThemeProvider theme={theme}>
@@ -61,6 +64,7 @@ function App() {
         <Route path="/my_tasks/:id" element={<Auth> <AllMyTasks /> </Auth>} />
         <Route path="/my_jobs/:id" element={ <Auth> <AllMyJobs /> </Auth>} />
         <Route path="/create_task" element={ <Auth> <CreateTask /> </Auth>} />
+        <Route path='/chat' element={ <Auth> <ChatContainer /> </Auth>} />
       </Routes>
 
   </ThemeProvider>

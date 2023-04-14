@@ -5,7 +5,7 @@ import db from '../config/database.js';
 
 const {DataTypes} = Sequelize;
 
-export const Users = db.define('users', {
+ const Users = db.define('users', {
 //   id: {
 //     type: DataTypes.INTEGER,
 //     primaryKey: true,
@@ -38,74 +38,74 @@ export const Users = db.define('users', {
         tableName : 'users'
     });
 
-export const UserInfo = db.define('users_info', {
-//   id: {
+// export const UserInfo = db.define('users_info', {
+// //   id: {
+// //     type: DataTypes.INTEGER,
+// //     primaryKey: true,
+// //     autoIncrement: true
+// //   },
+//   user_id: {
 //     type: DataTypes.INTEGER,
-//     primaryKey: true,
-//     autoIncrement: true
+//     allowNull: false,
+//     unique: true,
+//     validate : {
+//         isInt: true,
+//         notEmpty: true
+//     },
+//     // references: {
+//     //   model: Users,
+//     //   key: 'id'
+//     // },
+//     // onDelete: 'CASCADE',
+//     // onUpdate: 'CASCADE'
 //   },
-  user_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true,
-    validate : {
-        isInt: true,
-        notEmpty: true
-    },
-    // references: {
-    //   model: Users,
-    //   key: 'id'
-    // },
-    // onDelete: 'CASCADE',
-    // onUpdate: 'CASCADE'
-  },
-  first_name: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    validate : {
-        notEmpty: true,
-        is: /^[A-Za-z\s]*$/
-    }
-  },
-  last_name: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    validate : {
-        notEmpty: true,
-        is: /^[A-Za-z\s]*$/
-    }
-  },
-  city: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    validate : {
-        notEmpty: true,
-    }
-  },
-  birth_date: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
-    validate : {
-        notEmpty: true
-    }
-  },
-  gender: {
-    type: DataTypes.ENUM('female', 'male', 'other'),
-    allowNull: false,
-    validate : {
-        notEmpty: true,
-        isAlpha: true, 
-    }
-  },
-  info: {
-    type: DataTypes.TEXT,
-    allowNull: true
-  }
-},{
-    timestamps : false,
-    freezeTableName : true,
-    tableName : 'users_info'
-});
+//   first_name: {
+//     type: DataTypes.STRING(255),
+//     allowNull: false,
+//     validate : {
+//         notEmpty: true,
+//         is: /^[A-Za-z\s]*$/
+//     }
+//   },
+//   last_name: {
+//     type: DataTypes.STRING(255),
+//     allowNull: false,
+//     validate : {
+//         notEmpty: true,
+//         is: /^[A-Za-z\s]*$/
+//     }
+//   },
+//   city: {
+//     type: DataTypes.STRING(255),
+//     allowNull: false,
+//     validate : {
+//         notEmpty: true,
+//     }
+//   },
+//   birth_date: {
+//     type: DataTypes.DATEONLY,
+//     allowNull: false,
+//     validate : {
+//         notEmpty: true
+//     }
+//   },
+//   gender: {
+//     type: DataTypes.ENUM('female', 'male', 'other'),
+//     allowNull: false,
+//     validate : {
+//         notEmpty: true,
+//         isAlpha: true, 
+//     }
+//   },
+//   info: {
+//     type: DataTypes.TEXT,
+//     allowNull: true
+//   }
+// },{
+//     timestamps : false,
+//     freezeTableName : true,
+//     tableName : 'users_info'
+// });
 
 // Define associations
 // Users.hasOne(UserInfo, { foreignKey: 'user_id', onDelete: 'CASCADE', onUpdate: 'CASCADE' });

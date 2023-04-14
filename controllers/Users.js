@@ -1,6 +1,6 @@
-// import Users from "../models/UsersModels.js";
-// import UserInfo from "../models/UsersInfoModel.js";
-import {Users, UserInfo} from '../models/UsersModels.js'
+import Users from "../models/UsersModels.js";
+import UserInfo from "../models/UsersInfoModel.js";
+// import {Users, UserInfo} from '../models/UsersModels.js'
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -13,6 +13,15 @@ export const getUserByID = async (req,res) => {
         });
         res.json(user[0]);
     } catch(err){
+        res.status(404).json({msg : "Users not found"})
+    }
+}
+export const getAllUsers = async (req,res) => {
+    try{
+        const allUsers = await UserInfo.findAll();
+        res.json(allUsers);
+    } catch(err){
+        console.log(err);
         res.status(404).json({msg : "Users not found"})
     }
 }

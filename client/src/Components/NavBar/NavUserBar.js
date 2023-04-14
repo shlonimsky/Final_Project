@@ -42,14 +42,14 @@ const NavUserBar = (props) => {
 
   return (
     <Box sx={{display: "flex"}}>
-      <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+      <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate('/chat')}>
         <Badge badgeContent={4} color="error">
           <MailIcon />
         </Badge>
       </IconButton>
       <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
 
-        <Badge badgeContent={17} color="error">
+        <Badge badgeContent={17} color="error" >
           <NotificationsIcon />
         </Badge>
       </IconButton>

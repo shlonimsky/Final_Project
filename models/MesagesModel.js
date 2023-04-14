@@ -15,6 +15,7 @@ const Messages = db.define("messages",{
     },
     post_date : {
         type: DataTypes.DATE,
+        defaultValue: Sequelize.literal('NOW()')
     },
     sender_id: {
         type: DataTypes.INTEGER,

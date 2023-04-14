@@ -33,6 +33,7 @@
 
 import { Sequelize } from "sequelize";
 import db from '../config/database.js';
+import UserInfo from "./UsersInfoModel.js";
 
 
 const {DataTypes} = Sequelize;
@@ -100,6 +101,11 @@ const {DataTypes} = Sequelize;
 export const Conversations = db.define('conversations', {
   sender_id: {
     type: DataTypes.INTEGER,
+    foreignKey: true,
+    references: {
+      model: UserInfo,
+      key: 'user_id',
+    },
     allowNull: false,
     validate: {
       notEmpty: true,
@@ -112,6 +118,11 @@ export const Conversations = db.define('conversations', {
   },
   receiver_id: {
     type: DataTypes.INTEGER,
+    foreignKey: true,
+    references: {
+      model: UserInfo,
+      key: 'user_id',
+    },
     allowNull: false,
     validate: {
       notEmpty: true,
@@ -141,6 +152,7 @@ export const Messages = db.define("messages",{
   },
   post_date : {
       type: DataTypes.DATE,
+      defaultValue: Sequelize.literal('NOW()')
   },
   sender_id: {
       type: DataTypes.INTEGER,
@@ -159,6 +171,15 @@ export const Messages = db.define("messages",{
   tableName : 'messages'
 })
 
+Conversations.belongsTo(UserInfo, {
+  foreignKey: 'sender_id',
+  as: 'sender_info'
+});
+
+Conversations.belongsTo(UserInfo, {
+  foreignKey: 'receiver_id',
+  as: 'receiver_info'
+});
 // Synchronize the model with the database
 // db.sync();
 
