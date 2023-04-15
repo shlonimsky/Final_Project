@@ -204,3 +204,18 @@ left join "public"."users_info" as ur
  ON ur.user_id = c. receiver_id
 Where sender_id = 8 OR receiver_id=8
 
+create table rating_reviews (
+id SERIAL primary key Unique not null,
+user_id INTEGER REFERENCES "users_info" (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+rating integer not null check (rating in (1,2,3,4,5)),
+review TEXT not null,
+post_date TIMESTAMPTZ default now() not null,
+sender_name varchar(255) not null
+)
+
+create table helpers (
+user_id INTEGER REFERENCES "users_info" (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+category_id INTEGER REFERENCES "categories" (id) ON DELETE CASCADE ON UPDATE CASCADE,
+Unique (user_id,category_id)
+)
+

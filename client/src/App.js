@@ -14,6 +14,7 @@ import AllMyTasks from "./Components/AllMyTasks";
 import AllMyJobs from "./Components/AllMyJobs";
 import CreateTask from "./Components/CreateTask";
 import ChatContainer from "./Components/Chat/ChatContainer";
+import SearchHelper from "./Components/Search/SearchHelper";
 import { verifyTokenAfterRefresh, getAllCategories, getAllCities } from "./Redux/actions";
 import './style.css'
 
@@ -65,6 +66,7 @@ function App() {
         <Route path="/my_jobs/:id" element={ <Auth> <AllMyJobs /> </Auth>} />
         <Route path="/create_task" element={ <Auth> <CreateTask /> </Auth>} />
         <Route path='/chat' element={ <Auth> <ChatContainer /> </Auth>} />
+        <Route path="/search/:title" element={<SearchHelper />} />
       </Routes>
 
   </ThemeProvider>

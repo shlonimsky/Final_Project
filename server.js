@@ -8,6 +8,7 @@ import routerTasks from "./routes/Tasks.js";
 import routerCities from "./routes/Cities.js";
 import routerOffers from "./routes/Offers.js";
 import routerChat from "./routes/Chat.js";
+import routerHelpersReviews from "./routes/HelpersReviews.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(routerCategories)
 app.use('/api',routerCities)
 app.use(routerOffers)
 app.use('/api', routerChat)
+app.use('/api', routerHelpersReviews)
 
 
 

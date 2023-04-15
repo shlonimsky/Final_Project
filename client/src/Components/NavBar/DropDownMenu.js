@@ -37,13 +37,13 @@ const DropDownMenu = (props) => {
                 backgroundColor: "#e6e6e6",
               }
             }} >
-            <Typography textAlign="center" onClick={() => navigate('/search_helper')}>Find a helper</Typography>
+            <Typography textAlign="center" onClick={() => navigate('/search/helper')}>Find a helper</Typography>
           </MenuItem>
 
           <MenuItem
             sx={{backgroundColor: "white", "&:hover": {backgroundColor: "#e6e6e6"}}}
             key={2} onClick={handleCloseNavMenu} >
-            <Typography textAlign="center" onClick={() => navigate('/search_task')}>Become a helper</Typography>
+            <Typography textAlign="center" onClick={() => navigate('/search/task')}>Become a helper</Typography>
           </MenuItem>
 
           <MenuItem sx={{backgroundColor: "white", "&:hover": {backgroundColor: "#e6e6e6"}}}
