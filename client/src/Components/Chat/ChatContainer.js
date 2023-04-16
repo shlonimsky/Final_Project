@@ -1,6 +1,6 @@
 import { Avatar, BottomNavigation, BottomNavigationAction, Box, Button, CssBaseline, Paper, TextField, Typography } from "@mui/material";
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 // import {io} from 'socket.io-client'
 import ChatWindow from "./ChatWindow";
@@ -12,6 +12,7 @@ const ChatContainer = (props) => {
     const [allChats, setAllChats] = useState(null)
     const [userChat, setUserChat] = useState(null)
 
+
     // useEffect(() => {
     //     socket.current = io("ws://localhost:5050")
     // },[])
@@ -22,8 +23,14 @@ const ChatContainer = (props) => {
     //         console.log(users);
     //     })
     // },[user])
+const getNewMessagesForChat = async (chat_id, ) => {
+    try {
+        
+    } catch (err) {
+        
+    }
+}
 
-  
 
 
     useEffect(() => {
@@ -41,47 +48,60 @@ const ChatContainer = (props) => {
 
 
     return (
-        <Box m={2} sx={{ border: "solid 0.5px grey", borderRadius: "5px", height: "75vh", display: "flex",  justifyContent: "center"}}>
+        <Box m={2} sx={{ border: "solid 0.5px grey", borderRadius: "5px", height: "75vh", display: "flex", justifyContent: "center" }}>
 
-                <Box m={2} sx={{ display: { xs: "none", md: "block"}, width: "25%"}}>
-                    {!allChats ? <div>Loading</div> :
-                        <Box>
-                            {
-                                allChats.map(chat => 
+            <Box m={2} sx={{ display: { xs: "none", md: "block" }, width: "25%" }}>
+                {!allChats ? <Box>Loading</Box> :
+                    <Box>
+                        {
+                            allChats.map(chat =>
                                 <Box key={chat.id}>
                                     <Avatar src="#" alt={
                                         chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name
                                     } onClick={() => setUserChat(chat)} />
                                     <Typography>{chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name}</Typography>
                                 </Box>)
-                            }
-                        </Box>}
-                </Box>
+                        }
+                    </Box>}
+            </Box>
 
-                <Box m={2} sx={{border: "solid 0.5px grey", borderRadius: "5px", width: "100%", height:"50vh"}}>
-                    {!userChat ? <Box>Open chat to start </Box> : <ChatWindow chat={userChat}  user={user}/>}
-                </Box>
+            <Box m={2} sx={{ border: "solid 0.5px grey", borderRadius: "5px", width: "100%", height: "50vh" }}>
+                {!userChat ? <Box>Open chat to start </Box> : <ChatWindow chat={userChat} user={user} />}
+            </Box>
 
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0,  display: { xs: "block", md: "none"} }} elevation={5}>
-        <BottomNavigation
-                    sx={{ overflowY: "visible"}}
+            <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, display: { xs: "block", md: "none" } }} elevation={5}>
+                {/* <BottomNavigation
+                    sx={{ overflowY: "visible" }}
                     showlabel={"hello"}
-                      value={user}
-        //   onChange={""}
-        >
-            <Paper>
+                    value={user}
+                //   onChange={""}
+                > */}
+                    <Paper 
+                    sx={{display: "flex", flexDirection:"row", justifyContent: "space-around", flexWrap:"nowrap"}}
+                    >
 
-            { allChats && allChats.map(chat => 
-            <BottomNavigationAction
-            key={chat.id}
-            onClick={() => setUserChat(chat)} 
-            label={chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name}
-            icon={<Avatar src="#" alt={ chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name } /> }/>
-            )}
-            </Paper>
+                        {/* {allChats && allChats.map(chat =>
+                            <BottomNavigationAction
+                                key={chat.id}
+                                onClick={() => setUserChat(chat)}
+                                // label={chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name}
+                                label={"hello"}
+                                icon={<Avatar src="#" alt={chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name} />}
+                            />
+                        )} */}
 
-        </BottomNavigation>
-      </Paper>
+{allChats && allChats.map(chat =>
+                            <Box key={chat.id} onClick={() => setUserChat(chat)} >
+                                <Box sx={{display: "flex", flexDirection:"column", alignItems: "center", flexWrap:"wrap"}}>
+                                <Avatar src="" alt={chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name} />
+                                <Typography variant="button" >{chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name}</Typography>
+                                </Box>
+                            </Box>
+                        )}
+                    </Paper>
+
+                {/* </BottomNavigation> */}
+            </Box>
         </Box>
     )
 }
