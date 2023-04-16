@@ -193,7 +193,8 @@ conversation_id INTEGER REFERENCES "conversations" (id) ON DELETE CASCADE ON UPD
 message TEXT not null,
 post_date TIMESTAMPTZ default now() not null,
 sender_id INTEGER REFERENCES "users_info" (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-sender_name varchar(255) not null
+sender_name varchar(255) not null,
+is_read boolean default false not null
 )
 
 

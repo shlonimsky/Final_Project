@@ -10,8 +10,8 @@ import { ifUserAuthorized } from '../../Redux/actions'
 const NavUserBar = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
-  console.log("user in nav", user)
+  const {user, notifications, messages} = useSelector(state => state);
+  // console.log("user in nav", user, notifications)
 
   const menuId = 'primary-search-account-menu';
 
@@ -43,13 +43,13 @@ const NavUserBar = (props) => {
   return (
     <Box sx={{display: "flex"}}>
       <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => navigate('/chat')}>
-        <Badge badgeContent={4} color="error">
+        <Badge badgeContent={messages} color="error">
           <MailIcon />
         </Badge>
       </IconButton>
-      <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
+      <IconButton size="large" aria-label="show 17 new notifications" color="inherit" onClick={() => navigate('/notifications')}>
 
-        <Badge badgeContent={17} color="error" >
+        <Badge badgeContent={notifications} color="error" >
           <NotificationsIcon />
         </Badge>
       </IconButton>

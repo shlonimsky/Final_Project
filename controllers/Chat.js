@@ -90,28 +90,50 @@ export const createNewConversation = async (req,res) => {
     }
 }
 export const getAllMessagesByConv = async (req, res) => {
-    const {sender_id, receiver_id} = req.body
-    try {
-        const chat = await Conversations.findAll({
-            where: {  
-                [Op.or]: [
-                    {[Op.and]: [{ sender_id : sender_id}, { receiver_id : receiver_id }]},
-                    {[Op.and]: [{ sender_id : receiver_id}, { receiver_id : sender_id }]},
-                ]},
-            defaults: { 
-                sender_id, receiver_id
-            }
-        }) 
-        console.log(chat);
+    // const {sender_id, receiver_id} = req.body
+    const {conversation_id, user_id} = req.body
+    
+    // try {
+    //     const chat = await Conversations.findAll({
+    //         where: {  
+    //             [Op.or]: [
+    //                 {[Op.and]: [{ sender_id : sender_id}, { receiver_id : receiver_id }]},
+    //                 {[Op.and]: [{ sender_id : receiver_id}, { receiver_id : sender_id }]},
+    //             ]},
+    //         defaults: { 
+    //             sender_id, receiver_id
+    //         }
+    //     }) 
+    //     console.log(chat);
+    //     const allMessages = await Messages.findAll({
+    //         where: {conversation_id: chat[0].id},
+    //         order: [
+    //             ['post_date', 'ASC'],
+    //         ],
+    //     })
+    //     res.json(allMessages)
+        try {
         const allMessages = await Messages.findAll({
-            where: {conversation_id: chat[0].id},
+            where: {  
+                conversation_id,
+                },
             order: [
-                ['post_date', 'ASC'],
-            ],
-        })
+                    ['post_date', 'ASC'],
+                ],
+        }) 
+         const isRead = await Messages.update(
+            { is_read: true },
+             {
+            where: {
+                conversation_id,
+                sender_id: {[Op.ne]: user_id,}
+            }
+          })
+        // console.log(isRead);
+    //    res.json(isRead)
         res.json(allMessages)
     } catch (err) {
-        res.status(404).json({msg: "not found"})
+        res.status(404).json(err)
     }
 }
 //old variant works
@@ -143,11 +165,36 @@ export const sendNewMessage = async (req,res) => {
     const {conversation_id,message,post_date,sender_id,sender_name} = req.body
     try {
         const newMessage = await Messages.create({
-            conversation_id, message, post_date, sender_id, sender_name
+            conversation_id, message, post_date, sender_id, sender_name, is_read: false
         })
         console.log(newMessage);
         res.json(newMessage)
     } catch (err) {
-        res.status()
+        res.status(404).json(err)
     }
+}
+
+export const getAmountOfNewMessages = async (req,res) => {
+    const {user_id} = req.body
+    const ids = []
+    try {
+        const convIDs = await Conversations.findAll({
+                    where: { 
+                        [Op.or]: [
+                          { sender_id : user_id}, { receiver_id : user_id }
+                        ],
+                    }
+                }) 
+                convIDs.map(item => ids.push(item.id))
+        const allChat = await Messages.count({
+            where: {
+                conversation_id : { [Op.in] : ids},
+                sender_id : { [Op.ne]: user_id}, 
+                is_read: false
+            }
+          })
+                res.json(allChat)
+            } catch (err) {
+                res.status(404).json(err)
+            }
 }

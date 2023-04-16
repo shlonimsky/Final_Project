@@ -15,7 +15,8 @@ import AllMyJobs from "./Components/AllMyJobs";
 import CreateTask from "./Components/CreateTask";
 import ChatContainer from "./Components/Chat/ChatContainer";
 import SearchHelper from "./Components/Search/SearchHelper";
-import { verifyTokenAfterRefresh, getAllCategories, getAllCities } from "./Redux/actions";
+import NotificationsComponent from "./Components/Notifications";
+import { verifyTokenAfterRefresh, getAllCategories, getAllCities, getNewNotifications, getNewMessages } from "./Redux/actions";
 import './style.css'
 
 
@@ -42,11 +43,16 @@ const theme = createTheme({
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
-
+    dispatch(getNewNotifications())
+    dispatch(getNewMessages())
     dispatch(verifyTokenAfterRefresh())
     dispatch(getAllCategories())
     dispatch(getAllCities())
-
+    
+    setInterval(async () => {
+      dispatch(getNewNotifications())
+      dispatch(getNewMessages())
+    }, 10000)
   },[])
 
 
@@ -67,6 +73,7 @@ function App() {
         <Route path="/create_task" element={ <Auth> <CreateTask /> </Auth>} />
         <Route path='/chat' element={ <Auth> <ChatContainer /> </Auth>} />
         <Route path="/search/:title" element={<SearchHelper />} />
+        <Route path="/notifications" element = {<Auth> <NotificationsComponent /> </Auth>} />
       </Routes>
 
   </ThemeProvider>

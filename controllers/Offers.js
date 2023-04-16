@@ -18,19 +18,48 @@ try {
 export const getAmountUnreadOffers = async (req,res) => {
     const user_id = req.params.user_id;
     let ids = [];
+    // console.log("ID-----",user_id);
+
+    try {
+        const alltasks = await Tasks.findAll({
+            where: {user_id, status: "open"}
+        })
+        // console.log("AllTasks=====>", alltasks);
+        alltasks.map(task => ids.push(task.id))
+        const unreadOffers = await Offers.count({
+            where: {is_read: false, task_id: ids}
+        })
+        res.json(unreadOffers)
+        // const unreadOffers = await Offers.findAll({
+        //     where: {is_read: false, task_id: ids}
+        // })
+        // res.json(unreadOffers)
+    } catch (err) {
+        res.status(404).json({err})
+    }
+}
+
+export const getAllUnreadOffers = async (req,res) => {
+    const user_id = req.params.user_id;
+    let ids = [];
 
     try {
         const alltasks = await Tasks.findAll({
             where: {user_id, status: "open"}
         })
         alltasks.map(task => ids.push(task.id))
-
         const unreadOffers = await Offers.findAll({
             where: {is_read: false, task_id: ids}
         })
+        const changeValue = await Offers.update(
+            {is_read: true},
+            {where: {task_id: ids}}
+        )
+        console.log(changeValue);
+    
         res.json(unreadOffers)
     } catch (err) {
-        res.status(404).json({msg: "Not found"})
+        res.status(404).json({err})
     }
 }
 

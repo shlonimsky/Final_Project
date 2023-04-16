@@ -161,10 +161,16 @@ export const Messages = db.define("messages",{
   sender_name: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-          notEmpty: true
-      }
+      defaultValue: false,
+  },
+  is_read :{
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    validate: {
+        notEmpty: true
+    }
   }
+
 
 },{  timestamps : false,
   freezeTableName : true,

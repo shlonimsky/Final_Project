@@ -170,3 +170,36 @@ export const getMyJobs = (id) => async (dispatch) => {
 //   })
   
 // }
+
+export const getNewNotifications = () => async (dispatch, getState) => {
+  try {
+    const {data} = await axios.get(`/offers/unread/${getState().user.user_id}`)
+    return dispatch({
+      type: "GET_NEW_NOTIFICATIONS",
+      payload: data
+    })
+  } catch (err) {
+    console.log(err);
+    return dispatch({
+      type: "GET_NEW_NOTIFICATIONS",
+      payload : 0
+    })
+  }
+}
+
+export const getNewMessages = () => async (dispatch, getState) => {
+  try {
+    const {data} = await axios.put('/api/messages/new',{
+     user_id : getState().user.user_id
+    })
+    return dispatch({
+      type: "GET_NEW_MESSAGES",
+      payload : data
+    })
+  } catch (err) {
+    return dispatch({
+      type: "GET_NEW_MESSAGES",
+      payload : 0
+    })
+  }
+}
