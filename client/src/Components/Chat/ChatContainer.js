@@ -48,7 +48,7 @@ const getNewMessagesForChat = async (chat_id, ) => {
 
 
     return (
-        <Box m={2} sx={{ border: "solid 0.5px grey", borderRadius: "5px", height: "75vh", display: "flex", justifyContent: "center" }}>
+        <Box m={2} sx={{ border: "solid 0.5px #44B6C6", borderRadius:"5px", height: "75vh", display: "flex", justifyContent: "center" }}>
 
             <Box m={2} sx={{ display: { xs: "none", md: "block" }, width: "25%" }}>
                 {!allChats ? <Box>Loading</Box> :

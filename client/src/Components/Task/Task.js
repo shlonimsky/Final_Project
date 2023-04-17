@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { Box, Breadcrumbs, Button, CircularProgress, Divider, FormControl, TextField, Typography } from "@mui/material";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -115,7 +117,19 @@ const Task = (props) => {
                 </Box>
                 
                 <Offer task={task} user={user}/>
+                {task && (
+                    task.user_id === user.user_id && 
+                    <Box m={4} sx={{display : "flex", justifyContent:"center"}}> 
+                    
+                        {task.status==="open" &&  
+                        <Button variant="outlined" size="large" color="error" startIcon={<DeleteIcon />}>
+                        Delete
+                        </Button>
+                        } 
+                        <Button variant="outlined" size="large" m={4}>Change status</Button>
 
+                    </Box>
+                )}
             </Box>
               
     )

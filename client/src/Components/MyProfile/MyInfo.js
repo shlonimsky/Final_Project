@@ -1,4 +1,4 @@
-import { Box, Button, Fab, FormControl, FormLabel, TextField,  } from "@mui/material";
+import { Box, Button, Fab, FormControl, FormLabel, TextField, Typography, } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 
 import { useState } from "react";
@@ -6,51 +6,60 @@ import { useDispatch } from "react-redux";
 import { updateUserInfo } from "../../Redux/actions";
 
 
-const MyInfo = ({user}) => {
+const MyInfo = ({ user }) => {
     const dispatch = useDispatch()
-    const [isEdit,setIsEdit] = useState(false)
+    const [isEdit, setIsEdit] = useState(false)
     const [info, setInfo] = useState(user.info || "")
 
     const saveData = (e) => {
         setIsEdit(false)
-        dispatch(updateUserInfo(user.user_id, user.email,{
-            first_name:user.first_name,
-            last_name:user.last_name,
-            city : user.city,
-            birth_date : user.birth_date,
+        dispatch(updateUserInfo(user.user_id, user.email, {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            city: user.city,
+            birth_date: user.birth_date,
             gender: user.gender,
             info
         }))
     }
 
-    return(
-        <Box >
-             <FormControl>
-                { isEdit 
-                ? ( <>
-                    <TextField sx={{ m: 1, width: '25ch', bgcolor: 'white' }} id='info' 
-                    maxRows={4}
-                    variant="standard"
-                    defaultValue={info ? info : "About you"}
-                    onChange={(e) => setInfo(e.target.value)} />
-                    <Button onClick={() => {
+    return (
+        <Box sx={{marginBottom:"10px"}}>
+            {isEdit
+                ? <FormControl sx={{width:"100%"}}>
+                        <Typography variant="h6"> About you: </Typography>
+                    <TextField sx={{ m: 1, width: '100%', bgcolor: 'white' }} id='info'
+                    fullWidth
+                        maxRows={4}
+                        variant="standard"
+                        defaultValue={info ? info : "About you"}
+                        onChange={(e) => setInfo(e.target.value)} />
+                        <Box sx={{display:"flex"}}>
+                        <Button onClick={() => {
                         setIsEdit(false);
                         setInfo(user.info)
-                        }}>Cancel</Button>
+                    }}>Cancel</Button>
+                        <Button onClick={(e) => saveData(e)}>Save</Button>
+                        </Box>
+                
+                </FormControl>
 
-                    <Button onClick={(e) => saveData(e)}>Save</Button>
-                </>) 
-                : (<FormLabel >About you: 
-                    { user.first_name 
-                    ? <Fab color="secondary" aria-label="edit" onClick={() => setIsEdit(true)}>
-                        <EditIcon color="textColor"/>
-                    </Fab>
-                    : <></>}
-                    {info}
-                    </FormLabel>
-                )}
-            </FormControl>
+                : 
+                    <Box>
+                        <Box sx={{ display: "flex", justifyContent: "space-between" }} >
+                        <Typography variant="h6"> About you: </Typography>
+                            {user.info && (
+                                <Fab size="small" color="secondary" aria-label="edit" onClick={() => setIsEdit(true)}>
+                                    <EditIcon color="textColor" />
+                                </Fab>
+                            )}
+                        </Box>
+                        <Typography variant="subtitle1"> {info} </Typography>
+                    </Box>
+
+                }
         </Box>
+        
     )
 }
 

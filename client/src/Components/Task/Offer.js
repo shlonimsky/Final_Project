@@ -86,7 +86,7 @@ const Offer = ({task,user}) => {
                 {offers.map((offer) =>
                     <Box key={offer.id}>
                         <Box>
-                        <Typography variant="h6" component={Link} to={`/profile/${offer.helper_id}`}>{offer.first_name}</Typography>
+                        <Typography variant="h6" component={Link} to={`/user/${offer.helper_id}`}>{offer.first_name}</Typography>
                         {offer.helper_id===user.id ? <DeleteOutlinedIcon onClick={() => handleDelete(offer.id)}></DeleteOutlinedIcon> : <></> }
                         </Box>
                         <Typography variant="caption">{offer.post_date}</Typography>

@@ -8,6 +8,6 @@ routerTasks.get('/my_tasks/:id',VerifyToken, getMyTasks)
 routerTasks.get('/my_jobs/:id',VerifyToken,getMyJobs)
 routerTasks.get('/tasks', getAllTasks)
 routerTasks.post('/tasks', VerifyToken,createTask)
-
+// routerTasks.get('/jobs/:id')
 
 export default routerTasks

@@ -5,6 +5,7 @@ import {io} from 'socket.io-client'
 
 import dayjs from "dayjs";
 import relativeTime  from 'dayjs/plugin/relativeTime'
+import { Link } from "react-router-dom";
 dayjs.extend(relativeTime)
 // import Messages from "./Mesages";
 
@@ -79,13 +80,11 @@ const ChatWindow = ({ chat, user }) => {
         })
     },[user])
 
-    // useEffect(() => {
-    //     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    //   }, [messages]);
-
-    // useEffect(( ) => {
-    //     arrivalMessage && 
-    // },[arrivalMessage])
+    useEffect(() => {
+        scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end"})
+        // scrollRef.current.scrollIntoViewOptions({ behavior: "smooth", block: "end", inline: "nearest"});
+        // console.log(scrollRef.current.scrollIntoView);
+      }, [messages]);
 
 
     const handleSubmit = () => {
@@ -129,19 +128,26 @@ const ChatWindow = ({ chat, user }) => {
         <Box>
             <Box sx={{ width: "100%", height: "50vh", marginBottom: "1rem" }}>
 
-                <Paper ref={scrollRef} sx={{overflow: "auto", height: "50vh", overflowY : "visible" }}>
+                <Box ref={scrollRef} sx={{overflow: "auto", height: "50vh", overflowY : "visible", behavior: "smooth" }}>
                     { !messages[0] ? "No messages ":
                         messages.map(message =>
-                            <Box key={message.id || message.message} sx={{textAlign: message.sender_id === user.user_id ? "end" : "start"}}>
-                                <Typography >{message.sender_name}</Typography>
+                            <Box m={3} ref={scrollRef} key={message.id || message.message} sx={{textAlign: message.sender_id === user.user_id ? "end" : "start"}}>
+                                <Typography component={Link} to={`/user/${message.sender_id}`} sx={{color:"#390050", textDecoration:"none"}}>{message.sender_name}</Typography><br/>
                                 <Typography variant="caption" >{dayjs(message.post_date).fromNow()}</Typography>
-                                <Typography>{message.message}</Typography>
+                                <Box p={2} >
+                                {/* <Typography > */}
+                                    <span className={message.sender_id === user.user_id ? 'message grey' : 'message pink' }>
+                                   {message.message}
+                                        </span>
+                                {/* </Typography> */}
+
+                                </Box>
                             </Box>)
                     }
-                </Paper>
+                </Box>
             </Box>
             <Box  sx={{ display: "flex", flexDirection: "column", alignItems: "end", gap: "10px" }}>
-                        <TextField type={"text"} fullWidth rows={2} placeholder="You can leave your comment here" multiline 
+                        <TextField value={newMessage} type={"text"} fullWidth rows={2} placeholder="You can leave your comment here" multiline 
                         onChange={(e) => setNewMessage(e.target.value) }></TextField>
                         <Button variant="outlined" onClick={handleSubmit}>Send</Button>
             </Box>

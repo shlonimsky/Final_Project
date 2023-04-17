@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { useState, useEffect, createContext, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import {io} from 'socket.io-client'
+// import {io} from 'socket.io-client'
 
 import NavBar from "./Components/NavBar/NavBar";
 import Home from './Components/Home';
@@ -16,6 +16,7 @@ import CreateTask from "./Components/CreateTask";
 import ChatContainer from "./Components/Chat/ChatContainer";
 import SearchHelper from "./Components/Search/SearchHelper";
 import NotificationsComponent from "./Components/Notifications";
+import UserContainer from "./Components/User/UserContainer";
 import { verifyTokenAfterRefresh, getAllCategories, getAllCities, getNewNotifications, getNewMessages } from "./Redux/actions";
 import './style.css'
 
@@ -74,6 +75,7 @@ function App() {
         <Route path='/chat' element={ <Auth> <ChatContainer /> </Auth>} />
         <Route path="/search/:title" element={<SearchHelper />} />
         <Route path="/notifications" element = {<Auth> <NotificationsComponent /> </Auth>} />
+        <Route path='/user/:id' element = { <UserContainer /> } />
       </Routes>
 
   </ThemeProvider>

@@ -39,7 +39,7 @@ const HelpersReviews = db.define("rating_reviews",{
 },{
     timestamps : false,
     freezeTableName : true,
-    tableName : 'users_info'
+    tableName : 'rating_reviews'
 })
 
 export default HelpersReviews

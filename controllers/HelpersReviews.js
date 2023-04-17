@@ -3,6 +3,8 @@ import UserInfo from '../models/UsersInfoModel.js';
 import Tasks from '../models/TasksModel.js'
 import HelpersReviews from '../models/HelpersReviesModel.js'
 import { Op } from 'sequelize';
+import db from '../config/database.js';
+// import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -112,5 +114,22 @@ export const getTasksByTitle = async (req,res) => {
     } catch (err) {
         console.log(err);
         res.status(404).json({err})
+    }
+}
+
+//REVIEWS-------
+export const getUsersReviews = async (req, res) => {
+    try {
+        const reviews = await HelpersReviews.findAll({
+            where: {user_id : req.params.user_id},
+        })
+        const [avg] = await db.query(`SELECT SUM(rating)/COUNT(rating) as average FROM "public"."rating_reviews"
+        WHERE user_id=${req.params.user_id}`)
+        // const average = avg[0].average
+        // const rating = await HelpersReviews.findAll
+        res.json({reviews,average: avg[0]["average"] })
+    } catch (err) {
+        console.log(err);
+        res.status(404).json(err)
     }
 }
