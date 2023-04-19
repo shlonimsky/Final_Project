@@ -72,7 +72,7 @@ export const setUserById = (id,email) => async (dispatch) => {
         const res = await axios.get(`/cabinet/${id}`)
         return dispatch({
             type: "SET_USER",
-            payload: { ...res.data,email}
+            payload: { ...res.data,email, user_id : id}
         })
     } catch (err) {
         return dispatch({
@@ -173,11 +173,14 @@ export const getMyJobs = (id) => async (dispatch) => {
 
 export const getNewNotifications = () => async (dispatch, getState) => {
   try {
-    const {data} = await axios.get(`/offers/unread/${getState().user.user_id}`)
+    if (getState().user.user_id){
+      const {data} = await axios.get(`/offers/unread/${getState().user.user_id}`)
     return dispatch({
       type: "GET_NEW_NOTIFICATIONS",
       payload: data
     })
+    }
+    
   } catch (err) {
     console.log(err);
     return dispatch({
@@ -189,13 +192,15 @@ export const getNewNotifications = () => async (dispatch, getState) => {
 
 export const getNewMessages = () => async (dispatch, getState) => {
   try {
-    const {data} = await axios.put('/api/messages/new',{
-     user_id : getState().user.user_id
-    })
-    return dispatch({
-      type: "GET_NEW_MESSAGES",
-      payload : data
-    })
+    if (getState().user.user_id){
+      const {data} = await axios.put('/api/messages/new',{
+        user_id : getState().user.user_id
+       })
+       return dispatch({
+         type: "GET_NEW_MESSAGES",
+         payload : data
+       })
+    } 
   } catch (err) {
     return dispatch({
       type: "GET_NEW_MESSAGES",

@@ -20,7 +20,7 @@ const MyRating = ({user}) => {
         <Box sx={{marginBottom: {xs: "0", md:"15%"}, marginTop:"15%"}}>
             <Typography variant="h6">Rating</Typography>
             { rating && (
-                <Rating value={rating} readOnly/>
+                <Rating value={rating || 5} readOnly/>
             )}
         </Box>
     )

@@ -48,7 +48,7 @@ const MyInfo = ({ user }) => {
                     <Box>
                         <Box sx={{ display: "flex", justifyContent: "space-between" }} >
                         <Typography variant="h6"> About you: </Typography>
-                            {user.info && (
+                            {user.user_id && (
                                 <Fab size="small" color="secondary" aria-label="edit" onClick={() => setIsEdit(true)}>
                                     <EditIcon color="textColor" />
                                 </Fab>
