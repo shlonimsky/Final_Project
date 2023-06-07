@@ -113,9 +113,22 @@ export const updateUserInfo = (user_id, email, obj) => async (dispatch,getState)
     console.log(err.data);
     return dispatch({
       type: "SET_USER",
-      payload: { ...obj,email,user_id}
+      payload: { ...obj,email,user_id, avatar:null}
   })
 }
+}
+
+
+export const updateUserImage = (user) => async (dispatch) => {
+  console.log("in dispatch");
+  try {
+    const res = await axios.put(`/cabinet/${user.user_id}/set/avatar`,{avatar: user.avatar})
+  } catch (err) {console.log(err.data)}
+
+  return dispatch({
+    type: "SET_USER",
+    payload: { ...user}
+})
 }
 
 export const getMyTasks = (id) => async (dispatch) => {

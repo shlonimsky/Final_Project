@@ -53,7 +53,8 @@ const UserInfo = db.define("users_info",{
             isIn: [['female', 'male','other']]
         }
     },
-    info : DataTypes.TEXT 
+    info : DataTypes.TEXT,
+    avatar: DataTypes.TEXT
 }, {
     timestamps : false,
     freezeTableName : true,

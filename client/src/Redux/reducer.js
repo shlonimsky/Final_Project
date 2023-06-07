@@ -1,6 +1,6 @@
 const initState = {
     authenticated: false,
-    token: null,
+    // token: null,
     user: {},
     tasks : null,
     jobs : null,

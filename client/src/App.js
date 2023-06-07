@@ -50,10 +50,10 @@ function App() {
     dispatch(getAllCategories())
     dispatch(getAllCities())
     
-    setInterval(async () => {
-      dispatch(getNewNotifications())
-      dispatch(getNewMessages())
-    }, 10000)
+    // setInterval(async () => {
+    //   dispatch(getNewNotifications())
+    //   dispatch(getNewMessages())
+    // }, 10000)
   },[])
 
 

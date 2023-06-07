@@ -101,6 +101,31 @@ export const editMyProfile = async (req,res) => {
     }
 }
 
+export const editAvatar = async (req,res) => {
+    const {avatar} = req.body;
+    console.log("avatar in req body=========>>>>>>>", avatar);
+    try {
+        await UserInfo.update({ 
+            avatar
+        }, {
+            where : {user_id : req.params.id} 
+        });
+        res.json({msg : "ok"});
+    } catch (err) {
+        console.log("ERROR => ", err)
+        if (err.errors){
+             const {type,path} = err.errors[0]
+             console.log(err)
+             switch (type){
+                 case "Validation error" : return res.status(403).json({msg : `Please, enter the correct ${path}`})
+                 case "unique violation" : return res.status(403).json({msg : "Email already exist!"});
+                 default : return res.status(403).json({msg : "Oops, something went wrong! Try again"});
+                 }
+        }
+     else return res.json({msg : "Not found"});
+    }
+}
+
 export const login = async (req,res) => {
     try{
         const user = await Users.findAll({
