@@ -5,7 +5,6 @@ dotenv.config();
 export const getAllTasks = async (req, res) => {
     try {
         const allTasks = await Tasks.findAll()
-        // console.log(allTasks);
         res.json(allTasks)
     } catch (err) {
         res.status(404).json({nsg: 'Not found', err})
@@ -25,14 +24,50 @@ try {
 }
 
 export const createTask = async (req,res) => {
-    const {user_id, title, description, category_id, city, address, start_date, finish_date, salary, is_bargain} = req.body
+    const {user_id, title, description, category_id, city, address, start_date, finish_date, salary, is_bargain, img} = req.body
     try {
         const newTask = await Tasks.create({
-            user_id, title, description, category_id, city, address, start_date, finish_date, salary, is_bargain
+            user_id, title, description, category_id, city, address, start_date, finish_date, salary, is_bargain, img
         })
         res.json(newTask)
     } catch (err) {
         console.log("error in createTask ===>",err)
+        res.status(403).json({msg : "Oops, something went wrong! Try again"})
+    }
+}
+
+export const updateTask = async (req, res) => {
+    const helper_id = req.body.helper_id;
+    const id = req.params.id
+    try {
+        const task = await Tasks.update({helper_id},{where:{id}})
+        res.json({task, msg: "Task was completed successfully"})
+    } catch (err) {
+        res.status(403).json(err)
+    }
+}
+
+export const closeTask = async (req, res) => {
+    const {salary, id} = req.body
+    console.log("IN THE COOONTROLLER",salary, id );
+    try {
+        const task = await Tasks.update({ salary, status: "completed"},{where:{id}})
+        res.json({task, msg: "Task was completed successfully"})
+    } catch (err) {
+        res.status(403).json(err)
+    }
+}
+
+export const deleteTask = async (req, res) => {
+    const id = req.params.id
+    try {
+        await Tasks.destroy({
+            where: {
+                id
+            }
+        })
+        res.json({msg: "Task was deleted successfully"})
+    } catch (err) {
         res.status(403).json({msg : "Oops, something went wrong! Try again"})
     }
 }
@@ -70,7 +105,6 @@ export const getTask = async (req,res) => {
               ]
             
         })
-        console.log("task=====>",task[0]);
         if(task.length>0) res.json(task[0])
         else res.status(204).json({msg : "Not Found"})
     } catch (err) {

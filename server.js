@@ -10,6 +10,7 @@ import routerOffers from "./routes/Offers.js";
 import routerChat from "./routes/Chat.js";
 import routerHelpersReviews from "./routes/HelpersReviews.js";
 import routerImage from "./routes/Images.js"
+import routerSearch from "./routes/Search.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -34,6 +35,9 @@ app.use('/api',routerCities)
 app.use(routerOffers)
 app.use('/api', routerChat)
 app.use('/api', routerHelpersReviews)
+
+app.use('/api/search', routerSearch)
+
 app.use('/sdk/imagekit', routerImage)
 
 
@@ -44,6 +48,8 @@ app.listen(process.env.PORT || 8080, () => console.log(`Run on port: ${process.e
 try{
     db.authenticate();
     console.log("Database connected");
+    await db.sync();
+console.log("All models were synchronized successfully.");
 } catch (err){
     console.log(err);
 }

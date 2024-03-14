@@ -1,16 +1,18 @@
 import { Sequelize } from "sequelize";
 // import isEmail from 'validator/es/lib/isEmail';
 import db from '../config/database.js';
+import UserInfo from "./UsersInfoModel.js";
 
 
 const {DataTypes} = Sequelize;
 
  const Users = db.define('users', {
-//   id: {
-//     type: DataTypes.INTEGER,
-//     primaryKey: true,
-//     autoIncrement: true
-//   },
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
   email: {
     type: DataTypes.STRING(255),
     allowNull: false,
@@ -37,6 +39,10 @@ const {DataTypes} = Sequelize;
         freezeTableName : true,
         tableName : 'users'
     });
+
+    // Define the association between User and UserInfo
+    Users.hasOne(UserInfo, { foreignKey: 'user_id' });
+    UserInfo.belongsTo(Users, { foreignKey: 'user_id' });
 
 // export const UserInfo = db.define('users_info', {
 // //   id: {

@@ -4,9 +4,14 @@ import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 // import {io} from 'socket.io-client'
 import ChatWindow from "./ChatWindow";
+import {useLocation} from 'react-router-dom';
 
 
 const ChatContainer = (props) => {
+    const location = useLocation();
+props = location.state
+    console.log("PROPS: ", props);
+
     // const socket = useRef()
     const user = useSelector(state => state.user)
     const [allChats, setAllChats] = useState(null)
@@ -42,8 +47,15 @@ const getNewMessagesForChat = async (chat_id, ) => {
             body: JSON.stringify({ user_id: user.user_id })
         })
             .then(res => res.json())
-            .then(res => setAllChats(res))
+            .then(res => {setAllChats(res)
+                res.map( chat => {
+
+                    if (chat.sender_id === props.sender_id && chat.receiver_id === props.receiver_id) {setUserChat(chat)}
+                    else if (chat.sender_id === props.receiver_id && chat.receiver_id === props.sender_id) {setUserChat(chat)}
+                })
+            })
             .catch(err => console.log(err))
+          
     }, [user])
 
 
@@ -54,13 +66,14 @@ const getNewMessagesForChat = async (chat_id, ) => {
                 {!allChats ? <Box>Loading</Box> :
                     <Box>
                         {
-                            allChats.map(chat =>
-                                <Box key={chat.id}>
+                            allChats.map(chat =>{
+
+                                 return (<Box key={chat.id}>
                                     <Avatar src="#" alt={
                                         chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name
-                                    } onClick={() => setUserChat(chat)} />
+                                    } onClick={() => {setUserChat(chat); console.log("chat:",chat );}} />
                                     <Typography>{chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name}</Typography>
-                                </Box>)
+                                </Box>)})
                         }
                     </Box>}
             </Box>

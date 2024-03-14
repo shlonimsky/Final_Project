@@ -1,27 +1,31 @@
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const SearchTarget = ({helpers, tasks}) => {
+const SearchResult = ({helpers, tasks}) => {
     const navigate = useNavigate();
     const params = useParams().title;
+    console.log("params ",params);
 
     useEffect(() => {
-        console.log(params);
+        // console.log(params);
     }, [useParams])
 
     useEffect(() => {
-        console.log(helpers);
+        // console.log(helpers);
     },[helpers]);
-console.log(helpers, tasks);
+// console.log(helpers, tasks);
     return(
-        <Box>
+        <Box >
             {
               params === "helper" && (!helpers || helpers.length === 0 ? <div>Not found</div>  : 
                helpers.map(helper => 
                <Box key={helper.id} onClick={() => navigate(`/user/${helper.user_id}`)}>
-                    <Avatar src="#" alt={helper.first_name} />
+                <Button>
+                <Avatar src={helper.avatar ?  helper.avatar : "#"} alt={helper.first_name} />
                     <Typography >{helper.first_name}</Typography>
+                </Button>
+                  
                </Box>)
             )}
             {
@@ -35,4 +39,4 @@ console.log(helpers, tasks);
     )
 }
 
-export default SearchTarget
+export default SearchResult

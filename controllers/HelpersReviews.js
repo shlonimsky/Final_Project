@@ -8,30 +8,30 @@ import db from '../config/database.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const getAllHelpers = async (req,res) => {
-    try {
-        const allHelpers = await Helpers.findAll()
-        res.json(allHelpers)
-    } catch (err) {
-        console.log(err);
-        res.status(404).json({msg: "not found"})
-    }
-}
+// export const getAllHelpers = async (req,res) => {
+//     try {
+//         const allHelpers = await Helpers.findAll()
+//         res.json(allHelpers)
+//     } catch (err) {
+//         console.log(err);
+//         res.status(404).json({msg: "not found"})
+//     }
+// }
 
-export const getAllHelpersByCetog = async (req,res) => {
-    let ids = []
-    try {
-        const myCategories = await Helpers.findAll({
-            where: {category_id : req.params.id}
-        })
-        myCategories.map(a => ids.push(a.user_id))
-        const found = await UserInfo.findAll({ where: { user_id: {[Op.in]: ids } } }); 
-        res.json(found)
-    } catch (err) {
-        console.log(err);
-        res.status(404).json({err})
-    }
-}
+// export const getAllHelpersByCetog = async (req,res) => {
+//     let ids = []
+//     try {
+//         const myCategories = await Helpers.findAll({
+//             where: {category_id : req.params.id}
+//         })
+//         myCategories.map(a => ids.push(a.user_id))
+//         const found = await UserInfo.findAll({ where: { user_id: {[Op.in]: ids } } }); 
+//         res.json(found)
+//     } catch (err) {
+//         console.log(err);
+//         res.status(404).json({err})
+//     }
+// }
 
 export const getAllCategoriesByUserID = async (req,res) => {
     try {
@@ -63,59 +63,59 @@ export const postNewHelper = async (req,res) => {
     }
 }
 
-export const getUsersByInfo = async (req,res) => {
-    const info = req.query.info;
-    try {
-        info.replace(" ", "%")
-        console.log(info);
-        const foundUsers = await UserInfo.findAll({
-            where: {
-                info: {
-                [Op.iLike]: `%${info}%`
-              }}
-        })
-        res.json(foundUsers)
-    } catch (err) {
-        console.log(err);
-        res.status(404).json({err})
-    }
-}
+// export const getUsersByInfo = async (req,res) => {
+//     const info = req.query.info;
+//     try {
+//         info.replace(" ", "%")
+//         console.log(info);
+//         const foundUsers = await UserInfo.findAll({
+//             where: {
+//                 info: {
+//                 [Op.iLike]: `%${info}%`
+//               }}
+//         })
+//         res.json(foundUsers)
+//     } catch (err) {
+//         console.log(err);
+//         res.status(404).json({err})
+//     }
+// }
 
-//tasks----------
+// //tasks----------
 
-export const getTasksByCategory = async (req, res) => {
-    try {
-        const allTasks = await Tasks.findAll({
-            where: {
-                category_id: req.params.id
-            }
-        })
-        res.json(allTasks)
-    } catch (err) {
-        console.log(err);
-        res.status(404).json({err})
-    }
-}
+// export const getTasksByCategory = async (req, res) => {
+//     try {
+//         const allTasks = await Tasks.findAll({
+//             where: {
+//                 category_id: req.params.id
+//             }
+//         })
+//         res.json(allTasks)
+//     } catch (err) {
+//         console.log(err);
+//         res.status(404).json({err})
+//     }
+// }
 
-export const getTasksByTitle = async (req,res) => {
-    const info = req.query.info;
+// export const getTasksByTitle = async (req,res) => {
+//     const info = req.query.info;
 
-    try {
-        info.replace(" ", "%")
-        const allTasks = await Tasks.findAll({
-            where: {
-                [Op.or]: [
-                    {title: {[Op.iLike]: `%${info}%`}},
-                    {description : { [Op.iLike]: `%${info}%` }}
-                ]
-            }
-        })
-        res.json(allTasks)
-    } catch (err) {
-        console.log(err);
-        res.status(404).json({err})
-    }
-}
+//     try {
+//         info.replace(" ", "%")
+//         const allTasks = await Tasks.findAll({
+//             where: {
+//                 [Op.or]: [
+//                     {title: {[Op.iLike]: `%${info}%`}},
+//                     {description : { [Op.iLike]: `%${info}%` }}
+//                 ]
+//             }
+//         })
+//         res.json(allTasks)
+//     } catch (err) {
+//         console.log(err);
+//         res.status(404).json({err})
+//     }
+// }
 
 //REVIEWS-------
 export const getUsersReviews = async (req, res) => {
@@ -131,5 +131,17 @@ export const getUsersReviews = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(404).json(err)
+    }
+}
+
+export const postNewReview = async (req, res) => {
+    const {user_id, rating, review, sender_name} = req.body
+    // const user_id = req.params.user_id
+
+    try {
+        const newReview = await HelpersReviews.create({user_id,rating,review, sender_name})
+        res.json(newReview)
+    } catch (err) {
+        res.status(403).json(err)
     }
 }

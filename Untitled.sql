@@ -74,12 +74,13 @@ description text not null,
 category_id INTEGER REFERENCES categories (id) ON DELETE CASCADE ON UPDATE CASCADE NOT NULL,
 city varchar(255) not null,
 address varchar(255) not null,
-start_date TIMESTAMP not null CHECK (start_date >= CURRENT_DATE),
+start_date TIMESTAMP not null ,
 finish_date TIMESTAMP not null CHECK (finish_date >= start_date),
 post_date DATE not null  default CURRENT_DATE,
 salary INTEGER not null CHECK (salary > 0 ),
 is_bargain boolean not null CHECK (is_bargain IN (true, false)),
 status varchar(255) not null check (status IN ('open','in proccess','completed')),
+img text ARRAY,
 helper_id INTEGER REFERENCES users_info (id) ON DELETE CASCADE ON UPDATE CASCADE)
 
 INSERT INTO tasks(user_id, title, description, category_id, city, address, start_date, finish_date, salary, is_bargain, status )

@@ -4,6 +4,12 @@ import db from "../config/database.js";
 const {DataTypes} = Sequelize;
 
 const Categories = db.define("categories",{
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
     title : {
         type : DataTypes.STRING,
         allowNull: false,

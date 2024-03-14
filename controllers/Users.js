@@ -29,7 +29,7 @@ export const getAllUsers = async (req,res) => {
 export const getUserAsHelper = async (req,res) => {
     try {
         const helper = await UserInfo.findAll({
-            where: {id: req.params.id}
+            where: {user_id: req.params.id}
         })
         res.json(helper[0])
     } catch (err) {
@@ -54,13 +54,13 @@ export const getMyProfile = async (req,res) => {
 }
 
 export const postMyProfile = async (req,res) => {
-    const {first_name, last_name, city, birth_date, gender, info} = req.body;
+    const {first_name, last_name, city, birth_date, gender, info, img} = req.body;
 
     try{
         // const d = new Date(birth)
         // console.log("**** d =>",d)
         await UserInfo.create({
-            user_id : req.params.id, first_name, last_name, city, birth_date, gender, info });
+            user_id : req.params.id, first_name, last_name, city, birth_date, gender, info, img });
         res.json({msg : "ok"});
     } catch (err){
         console.log("ERROR => ", err)
@@ -78,13 +78,36 @@ export const postMyProfile = async (req,res) => {
 }
 
 export const editMyProfile = async (req,res) => {
-    const {first_name, last_name, city, birth_date, gender, info} = req.body;
+    const {first_name, last_name, city, birth_date, gender, info, img} = req.body;
     try {
         await UserInfo.update({ 
-            first_name, last_name, city, birth_date, gender, info
+            first_name, last_name, city, birth_date, gender, info, img
         }, {
             where : {user_id : req.params.id} 
         });
+        res.json({msg : "ok"});
+    } catch (err) {
+        console.log("ERROR => ", err)
+        if (err.errors){
+             const {type,path} = err.errors[0]
+             console.log(err)
+             switch (type){
+                 case "Validation error" : return res.status(403).json({msg : `Please, enter the correct ${path}`})
+                 case "unique violation" : return res.status(403).json({msg : "Email already exist!"});
+                 default : return res.status(403).json({msg : "Oops, something went wrong! Try again"});
+                 }
+        }
+     else return res.json({msg : "Not found"});
+    }
+}
+
+export const editMyPortfolio = async (req,res) => {
+    const {img, user_id} = req.body;
+    try {
+        await UserInfo.update(
+            {img}, 
+            {where : {user_id}}
+            );
         res.json({msg : "ok"});
     } catch (err) {
         console.log("ERROR => ", err)

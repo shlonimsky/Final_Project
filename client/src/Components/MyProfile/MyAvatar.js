@@ -41,7 +41,7 @@ const MyAvatar = ({ user }) => {
       };
 
     return (
-        <Box sx={{ display: "flex", justifyContent: "center", flexDirection: 'column', marginBottom: "15%" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: 'column', marginBottom: "15%" }}>
             <Avatar alt={user.first_name || user.email} src={user.avatar || '#'} onClick={() => changeAvatar()} sx={{ width: "100px", height: "100px" }} />
             {user.first_name && !isEdit && <Typography variant="p"  sx={{'&:hover': {cursor: 'pointer', color: 'secondary.main'}}} onClick={() => setIsEdit(true)}>Edit avatar </Typography>}
         
@@ -73,12 +73,12 @@ const MyAvatar = ({ user }) => {
             onError={onError}
             onSuccess={onSuccess}
             onUploadProgress={onUploadProgress}
-            folder={"/avatars"}
+            folder={`/avatars/${user.id}`}
             inputRef={inputRefTest}
           ref={ikUploadRefTest}
             />
-        {inputRefTest && <button onClick={() => inputRefTest.current.click()}>Upload</button>}
-        {ikUploadRefTest && <button onClick={() => ikUploadRefTest.current.abort()}>Abort request</button>}
+        {/* {inputRefTest && <button onClick={() => inputRefTest.current.click()}>Upload</button>} */}
+        {/* {ikUploadRefTest && <button onClick={() => ikUploadRefTest.current.abort()}>Abort request</button>} */}
       
             </IKContext>
             {isEdit && <Typography variant="p" sx={{'&:hover': {cursor: 'pointer', color: 'secondary.main'}}} onClick={() => setIsEdit(false)}>Cancel </Typography>}

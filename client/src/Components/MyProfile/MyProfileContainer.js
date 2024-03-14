@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, CircularProgress, Divider, Fab, FormControl, FormLabel, Grid, Radio, RadioGroup, TextField } from "@mui/material";
+import { Avatar, Box, Button, CircularProgress, Divider, Fab, FormControl, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from "react";
 
@@ -8,9 +8,12 @@ import MyAvatar from "./MyAvatar";
 import MyInfo from "./MyInfo";
 import MyJobs from "./MyJobs";
 import MyRating from "./MyRating";
+import MyPortfolio from "./MyPortfolio";
 
 const MyProfileContainer = (props) => {
     const user = useSelector(state => state.user)
+    const allCities = useSelector(state => state.allCities)
+
 
 
     return (
@@ -20,7 +23,7 @@ const MyProfileContainer = (props) => {
             <Box p={3} sx={{ width: { xs: "100%", md: "30%", lg: "30%" }}}>
                 <MyAvatar user={user} />
                 <Divider />
-                <MyProfile user={user} />
+                <MyProfile user={user} allCities={allCities}/>
                 <Divider />
                 <MyRating user={user}/>
 
@@ -35,6 +38,11 @@ const MyProfileContainer = (props) => {
                 <Divider />
 
                 <MyJobs id = {user.id} />
+                <Divider />
+
+                <MyPortfolio user = {user}/>
+
+
             </Box>
             </>}
 

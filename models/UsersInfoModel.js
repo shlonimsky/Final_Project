@@ -4,11 +4,22 @@ import db from '../config/database.js';
 const {DataTypes} = Sequelize;
 
 const UserInfo = db.define("users_info",{
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    id: { 
+        type: DataTypes.INTEGER, 
+        primaryKey: true, 
+        autoIncrement: true,
+        allowNull: false,
+     },
     user_id : {
         type : DataTypes.INTEGER,
         allowNull: false,
         unique: true,
+        references: {
+            model: 'User',
+            key: 'id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+          },
         validate : {
             isInt: true,
             notEmpty: true
@@ -54,11 +65,18 @@ const UserInfo = db.define("users_info",{
         }
     },
     info : DataTypes.TEXT,
-    avatar: DataTypes.TEXT
+    avatar: DataTypes.TEXT,
+    img: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        allowNull: false, // or false, depending on your requirements
+        defaultValue: []
+    },
 }, {
     timestamps : false,
     freezeTableName : true,
     tableName : 'users_info'
 }
 )
+
+
 export default UserInfo

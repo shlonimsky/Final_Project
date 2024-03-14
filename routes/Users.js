@@ -1,5 +1,5 @@
 import express from "express";
-import { register, login, getAllUsers, getUserByID, getUserAsHelper, getMyProfile, postMyProfile,editAvatar, editMyProfile, logOut } from "../controllers/Users.js";
+import { register, login, getAllUsers, getUserByID, getUserAsHelper, getMyProfile, postMyProfile,editAvatar, editMyProfile, editMyPortfolio,  logOut } from "../controllers/Users.js";
 import {VerifyToken} from '../middlewares/verifytoken.js';
 import jwt from 'jsonwebtoken';
 const routerUsers = express.Router();
@@ -11,8 +11,10 @@ routerUsers.get('/users', getAllUsers)
 routerUsers.get('/helper/:id', getUserAsHelper);
 routerUsers.post('/cabinet/:id/set', VerifyToken, postMyProfile)
 routerUsers.put('/cabinet/:id/set/avatar', VerifyToken, editAvatar)
+routerUsers.put('/cabinet/img', VerifyToken, editMyPortfolio)
 routerUsers.put('/cabinet/:id/set', VerifyToken, editMyProfile)
 routerUsers.get('/cabinet/:id',VerifyToken, getMyProfile)
+
 routerUsers.delete('/logout', logOut)
 
 routerUsers.get('/token', VerifyToken, (req,res) => {

@@ -1,11 +1,13 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Box, Breadcrumbs, Button, CircularProgress, Divider, FormControl, TextField, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Divider, FormControl, TextField, Typography } from "@mui/material";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import AlertDialog from "./Alert";
+import ImageList from "../Images/ImageList";
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -25,19 +27,25 @@ const Task = (props) => {
     const [posted,setPosted] = useState(null)
     const [userTask,setUserTask] = useState(null)
     const [helper, setHelper] = useState(null)
+    const [openAlert, setOpenAlert] = useState(false);
+    const [title, setTitle] = useState(null)
+
     useEffect(() => {
         fetch(`/task/${id}`)
         .then(res => res.json())
         .then(res => {
             console.log(res);
+            setPosted(dayjs().diff(dayjs(res.post_date),'day'))
+
             setTask(res);
             getCategory(res.category_id)
             getUser(res.user_id)
             getHelper(res.helper_id)
-            setPosted(dayjs().diff(dayjs(task.post_date),'day'))
+            // setPosted(dayjs().diff(dayjs(task.post_date),'day'))
         }) 
         .catch(err => console.log(err))
     },[])
+
 
     const getCategory = (category_id) => {
         fetch(`/category/${category_id}`)
@@ -53,23 +61,27 @@ const Task = (props) => {
             .then(res => {
                 setUserTask(res)
             }) 
+            .catch(err => console.log(err))
+
     }
 
     const getHelper =  (helper_id) => {
         helper_id && ( fetch(`/helper/${helper_id}`)
+
             .then(res => res.json())
             .then(res => {
+                console.log("FETCH in getHelper ", res);
                 setHelper(res)
             }) 
-            .catch(err => console.log(err))
+            .catch(err => console.log("ERROR in FETCH in getHelpe r",err))
         )
     }
-
 
     return(
             !task  
             ? <Box sx={{ display: 'flex', justifyContent: "center", alignItems: "center", height: "70vh" }}> <CircularProgress></CircularProgress> </Box>
-            :   <Box >
+            :   <Box m={2} sx={{ border: "solid 0.5px #44B6C6", borderRadius: "5px", padding: "15px" }}>
+
                     <Box sx={{display: "flex", justifyContent: "space-between", xs: { flexDirection:"column"}, md: {flexDirection:"row"}}} p={2}>
                         <div>
                         <Typography variant="h3" component="h3">{task.title}</Typography>
@@ -79,10 +91,19 @@ const Task = (props) => {
                         </Breadcrumbs>
                         </div>
                         <div>
+                            {helper && 
+                        <Typography variant="h6">helper: {
+                            <Typography variant="h6" component={Link} to={`/user/${helper.first_name}`}>{
+                                helper.first_name
+                                }</Typography>
+                            }</Typography>
+                            }
                         <Typography variant="h6" component="h6">price: {task.salary}</Typography>
-                        <Typography variant="p" component="p">{task.is_bargain ? "Price is negotiable" : "" }</Typography>
+                        {task.status==="open"  && <Typography variant="p" component="p">{task.is_bargain ? "Price is negotiable" : "" }</Typography>}
                         <Typography variant="h6" component="h6">status: {task.status}</Typography>
-                        <Typography variant="p" component="p">posted: {posted>0 ? `${posted} days ago` : 'today'}</Typography>
+                        <Typography variant="p" component="p">posted: {posted>0 ? `${posted} days ago` : 'today11'}</Typography>
+                        {/* <Typography variant="p" component="p">posted: {posted>0 ? `${posted} days ago` : "posted"}</Typography> */}
+
                         </div>
                     </Box>
 
@@ -96,6 +117,14 @@ const Task = (props) => {
                 </Box>
 
                 <Typography m={2} sx={{border: "solid 0.5px"}} variant="h5" component="h5">{task.description}</Typography>
+               
+                {task.img && <Box>
+                    <Divider > <CameraAltOutlinedIcon></CameraAltOutlinedIcon> </Divider>
+                    <ImageList imgs = {task.img} editing={false}/>
+                </Box>
+                }
+
+
                 <Divider > <LocationOnOutlinedIcon /> </Divider>
                 <Typography m={2} variant="h5" component="h5">{task.city}</Typography>
                 <Typography m={2} variant="h5" component="h5">{
@@ -116,20 +145,25 @@ const Task = (props) => {
                 </LocalizationProvider>
                 </Box>
                 
-                <Offer task={task} user={user}/>
+               {
+                !task.helper_id && 
+                <Offer task={task} user={user} alertChanger={setOpenAlert} titleChanger={setTitle} helperChanger={setHelper}/> 
+                }
+
                 {task && (
                     task.user_id === user.user_id && 
                     <Box m={4} sx={{display : "flex", justifyContent:"center"}}> 
                     
                         {task.status==="open" &&  
-                        <Button variant="outlined" size="large" color="error" startIcon={<DeleteIcon />}>
+                        <Button onClick={() => {setTitle('delete'); setOpenAlert(!openAlert)}} variant="outlined" size="large" color="error" startIcon={<DeleteIcon />}>
                         Delete
                         </Button>
                         } 
-                        <Button variant="outlined" size="large" m={4}>Change status</Button>
+                        {task.helper_id && task.status==="open" && <Button onClick={() => {setTitle('close'); setOpenAlert(!openAlert)}} variant="outlined" size="large" m={4}>Change status</Button>}
 
                     </Box>
                 )}
+                {openAlert && <AlertDialog getHelper={getHelper} stateChanger={setOpenAlert} open={openAlert} title={title} taskID={task.id} helperID={helper.user_id||""}></AlertDialog>}
             </Box>
               
     )

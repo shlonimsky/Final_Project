@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Fab, FormControl, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Fab, FormControl, FormLabel, Grid, MenuItem, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import dayjs from "dayjs";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -13,8 +13,8 @@ import { useState, useEffect } from "react";
 import { postNewUser, updateUserInfo } from "../../Redux/actions";
 
 
-const MyProfile = ({ user }) => {
-    console.log(user)
+const MyProfile = ({ user , allCities}) => {
+    // console.log(user)
     const dispatch = useDispatch();
     // const user = useSelector(state => state.user)
     const [first_name, setFirstName] = useState(user.first_name || "")
@@ -39,7 +39,7 @@ const MyProfile = ({ user }) => {
         <FormControl sx={{width:"100%"}}>
 
             {isEdit
-                ? <Box sx={{marginBottom:"15%"}}>
+                ? <Box sx={{marginBottom:"15%", display: "flex", flexDirection: "column"}}>
                     <TextField sx={{ m: 1, width: '25ch', bgcolor: 'white' }} id='first_name' variant="standard"
                         required
                         defaultValue={first_name}
@@ -65,12 +65,22 @@ const MyProfile = ({ user }) => {
                             <FormControlLabel value="other" control={<Radio />} label="Other" />
                         </RadioGroup>
                     </Box>
-                    <TextField sx={{ m: 1, width: '25ch', bgcolor: 'white' }} id='city' variant="standard"
+
+                    <TextField defaultValue={user.city || ""} id="city"  helperText="Please, select the city" select onChange={(e) => setCity(e.target.value)}>
+                    { allCities ? allCities.map(item => (
+                            <MenuItem key={item.id} value={item.title}>
+                            {item.title}
+                            </MenuItem>
+                        ))
+                        : <MenuItem value={''}></MenuItem>}
+                    </TextField>
+
+                    {/* <TextField sx={{ m: 1, width: '25ch', bgcolor: 'white' }} id='city' variant="standard"
                         // disabled={!isEdit}
                         defaultValue={city ? city : "City"}
                         error={city === "" ? true : false}
                         helperText={city === "" ? "Enter your city" : ""}
-                        onChange={(e) => setCity(e.target.value.trim())} />
+                        onChange={(e) => setCity(e.target.value.trim())} /> */}
                     <LocalizationProvider dateAdapter={AdapterDayjs} >
                         <DatePicker value={dayjs(birth_date)}
                             variant="standard"

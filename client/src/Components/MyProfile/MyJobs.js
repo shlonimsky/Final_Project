@@ -14,7 +14,7 @@ const MyJobs = ({id}) => {
 
     console.log((id));
     return(
-        <Box>
+        <Box sx={{marginBottom:"5%", marginTop:"10px"}}>
             <Typography variant="h4" component="h4">My Jobs</Typography>
             {jobs ? (
                 jobs.map((job,i) =>{

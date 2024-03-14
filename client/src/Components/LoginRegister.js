@@ -18,9 +18,11 @@ const LoginRegister = (props) => {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [msg, setMsg] = useState('');
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         setMsg('')
+        setError(null)
     }, [title])
 
       // @mui library for password input
@@ -42,9 +44,10 @@ const LoginRegister = (props) => {
                         setMsg(data.msg)
                         navigate(`/cabinet/${data.userID}`)
                     } catch (err){
-                        console.log(err.data.msg);
+                        console.log("err in CATCH: ", err);
                         dispatch(ifUserAuthorized(false))
-                        setMsg(err.res.data.msg)
+                        setMsg(err.response.data.msg)
+                        setError("Email or password is wrong")
                     }
             }
             if(id === 'register'){
@@ -59,6 +62,7 @@ const LoginRegister = (props) => {
                 } catch (err) {
                     console.log(err.res.data.msg);
                     setMsg(err.res.data.msg)
+
                 }
             }
         }
@@ -67,6 +71,7 @@ const LoginRegister = (props) => {
         
     }
 
+    console.log("EEERROR: ", msg);
 
     return (
         <section className='flex_row container' >{msg}
@@ -96,6 +101,8 @@ const LoginRegister = (props) => {
                 }}
             >
                 <h1>{title === 'login' ? "Log In" : "Register"}</h1>
+                <FormHelperText  sx={{color:"red",display : error ? "flex" : "none"}}>{error || msg}</FormHelperText>
+
 
                 <TextField sx={{ m: 1, width: '25ch', bgcolor: 'white' }} id='email' label="Enter email" variant="outlined"
                     error={email === "" ? false : (!regex.test(email))}
@@ -106,7 +113,7 @@ const LoginRegister = (props) => {
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="password"
-                        error={/\s+/.test(password)}
+                        error={error || /\s+/.test(password)}
                         
                         type={showPassword ? 'text' : 'password'}
                         onChange={(e) => setPassword(e.target.value)}
@@ -124,6 +131,7 @@ const LoginRegister = (props) => {
                         label="Password"
                     />
                     <FormHelperText  sx={{color:"red",display : /\s+/.test(password)? "flex" : "none"}}>Password can't contain spaces</FormHelperText>
+
                 </FormControl>
 
                 {title === 'register' && (

@@ -3,6 +3,12 @@ import db from "../config/database.js";
 const {DataTypes} = Sequelize;
 
 const Tasks = db.define("tasks",{
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
     user_id : {
         type : DataTypes.INTEGER,
         allowNull: false,
@@ -73,7 +79,11 @@ const Tasks = db.define("tasks",{
             isIn: [[true, false]],
         }
     },
-
+    img: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        allowNull: false, // or false, depending on your requirements
+        defaultValue: []
+    },
     status : {
         type : DataTypes.STRING,
         allowNull: false,

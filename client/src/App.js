@@ -12,7 +12,8 @@ import MyProfileContainer from "./Components/MyProfile/MyProfileContainer";
 import Task from "./Components/Task/Task";
 import AllMyTasks from "./Components/AllMyTasks";
 import AllMyJobs from "./Components/AllMyJobs";
-import CreateTask from "./Components/CreateTask";
+import CreateTask from "./Components/Task/CreateTask";
+import ChangeTask from "./Components/Task/ChangeTask"
 import ChatContainer from "./Components/Chat/ChatContainer";
 import SearchHelper from "./Components/Search/SearchHelper";
 import NotificationsComponent from "./Components/Notifications";
@@ -67,15 +68,17 @@ function App() {
         <Route path="/" element={ <Home /> }/>
         <Route path="/login" element={ <LoginRegister title = {'login'}/>} />
         <Route path="/register" element={ <LoginRegister title = {'register'}/>} />
+        <Route path="/close_task/:id" element={ <ChangeTask /> } />
         <Route path="/cabinet/:id" element={<Auth> <MyProfileContainer /> </Auth> } />
         <Route path="/task/:id" element={ <Task /> } />
         <Route path="/my_tasks/:id" element={<Auth> <AllMyTasks /> </Auth>} />
         <Route path="/my_jobs/:id" element={ <Auth> <AllMyJobs /> </Auth>} />
         <Route path="/create_task" element={ <Auth> <CreateTask /> </Auth>} />
-        <Route path='/chat' element={ <Auth> <ChatContainer /> </Auth>} />
+        <Route path='/chat' element={ <Auth> <ChatContainer state /> </Auth>} />
         <Route path="/search/:title" element={<SearchHelper />} />
         <Route path="/notifications" element = {<Auth> <NotificationsComponent /> </Auth>} />
         <Route path='/user/:id' element = { <UserContainer /> } />
+
       </Routes>
 
   </ThemeProvider>

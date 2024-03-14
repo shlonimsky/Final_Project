@@ -50,3 +50,10 @@ header{
     background-color: #ededed;
 
 }
+.upload-img-button{
+    background-color: "blue";
+
+}
+#upload-img-button{
+    background-color: "red";
+}
