@@ -11,7 +11,7 @@ const initState = {
 };
 
 export const reducer = (state = initState, action = {}) => {
-    console.log("state in reducer", state);
+    // console.log("state in reducer", state);
     switch (action.type) {
         case "GET_ALL_CATEGORIES" : return {...state, categories: action.payload};
         case "GET_ALL_CITIES" : return{...state, allCities: action.payload}

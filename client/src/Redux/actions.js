@@ -7,7 +7,7 @@ export const getAllCategories = () => async (dispatch) => {
     return(
       dispatch({
         type : "GET_ALL_CATEGORIES",
-        payload: data
+        payload: [{description: "", id: '', title: "No category"}, ...data]
       })
     )
   } catch(err){

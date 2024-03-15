@@ -10,7 +10,7 @@ import axios from "axios"
 const MyPortfolio = ({user}) => {
     const dispatch = useDispatch()
     // const [img, setImg] = useState(user.img || [])
-    const [img, setImg] = useState(['https://ik.imagekit.io/helperapp/portfolio/portfolio_Q5CJ2ilwB?updatedAt=1710364223433'])
+    const [img, setImg] = useState([])
 
     // const [isEdit, setIsEdit] = useState(user.first_name === "" ? true : false)
 
