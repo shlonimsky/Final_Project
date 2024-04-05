@@ -18,7 +18,7 @@ stateChanger([...imgs])
                     <a href={url} key={i}>
                 <Card >
                 <CardMedia
-                    sx={{ height: 150, width: 150, border: 1, borderRadius: 2}}
+                    sx={{ height: 300, width: 300, border: 1, borderRadius: 2}}
                     image={url}
                     title="image"
                     />
@@ -37,7 +37,7 @@ stateChanger([...imgs])
 
                  <Card  >
                 <CardMedia
-                    sx={{ height: 150, width: 150, border: 1, borderRadius: 2}}
+                    sx={{ height: 300, width: 300, border: 1, borderRadius: 2}}
                     image={url}
                     title="image"
                     />

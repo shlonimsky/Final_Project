@@ -2,6 +2,7 @@ import { Avatar, Box, Button, CircularProgress, Divider, Fab, FormControl, FormL
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from "react";
 
+import { setUserById } from "../../Redux/actions"
 import MyProfile from "./MyProfile";
 import MyTasks from "./MyTasks";
 import MyAvatar from "./MyAvatar";
@@ -11,10 +12,13 @@ import MyRating from "./MyRating";
 import MyPortfolio from "./MyPortfolio";
 
 const MyProfileContainer = (props) => {
+    const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const allCities = useSelector(state => state.allCities)
 
-
+    // useEffect(() => {
+    //     dispatch(setUserById(user.user_id, user.email))
+    //         },[])
 
     return (
         <Box m={2} sx={{border: "solid 0.5px #44B6C6", borderRadius:"5px"}}>

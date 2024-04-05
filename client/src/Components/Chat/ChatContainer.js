@@ -48,6 +48,7 @@ const getNewMessagesForChat = async (chat_id, ) => {
         })
             .then(res => res.json())
             .then(res => {setAllChats(res)
+                console.log("FETCHING CHATS", res);
                 res.map( chat => {
 
                     if (chat.sender_id === props.sender_id && chat.receiver_id === props.receiver_id) {setUserChat(chat)}
@@ -58,9 +59,9 @@ const getNewMessagesForChat = async (chat_id, ) => {
           
     }, [user])
 
-
+console.log("allChats", allChats);
     return (
-        <Box m={2} sx={{ border: "solid 0.5px #44B6C6", borderRadius:"5px", height: "75vh", display: "flex", justifyContent: "center" }}>
+        <Box m={2} sx={{ border: "solid 0.5px #44B6C6", borderRadius:"5px", height: "80vh", display: "flex", justifyContent: "center" }}>
 
             <Box m={2} sx={{ display: { xs: "none", md: "block" }, width: "25%" }}>
                 {!allChats ? <Box>Loading</Box> :
@@ -69,7 +70,7 @@ const getNewMessagesForChat = async (chat_id, ) => {
                             allChats.map(chat =>{
 
                                  return (<Box key={chat.id}>
-                                    <Avatar src="#" alt={
+                                    <Avatar src={chat.sender_id === user.user_id ? chat.receiver_avatar : chat.sender_avatar} alt={
                                         chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name
                                     } onClick={() => {setUserChat(chat); console.log("chat:",chat );}} />
                                     <Typography>{chat.sender_id === user.user_id ? chat.receiver_name : chat.sender_name}</Typography>

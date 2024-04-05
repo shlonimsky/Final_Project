@@ -30,7 +30,7 @@ export const getAllMyConversations = async (req,res) => {
     
         try {
             const [results, metadata] = await db.query(`
-            SELECT  c.id, sender_id, us.first_name as sender_name, receiver_id, ur.first_name as receiver_name  FROM "public"."conversations" as c
+            SELECT  c.id, sender_id, us.first_name as sender_name, us.avatar as sender_avatar , receiver_id, ur.first_name as receiver_name, ur.avatar as receiver_avatar  FROM "public"."conversations" as c
             left join "public"."users_info" as us
              ON us.user_id = c. sender_id
             left join "public"."users_info" as ur

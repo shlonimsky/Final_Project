@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect, createContext, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 // import {io} from 'socket.io-client'
 
@@ -44,18 +44,23 @@ const theme = createTheme({
 
 function App() {
   const dispatch = useDispatch()
+  const token = useSelector(state => state.token)
+
+
   useEffect(() => {
-    dispatch(getNewNotifications())
-    dispatch(getNewMessages())
     dispatch(verifyTokenAfterRefresh())
+    dispatch(getNewNotifications())
+  dispatch(getNewMessages())
     dispatch(getAllCategories())
     dispatch(getAllCities())
     
     // setInterval(async () => {
-    //   dispatch(getNewNotifications())
-    //   dispatch(getNewMessages())
-    // }, 10000)
-  },[])
+      //   dispatch(getNewNotifications())
+      //   dispatch(getNewMessages())
+      // }, 10000)
+    },[])
+    
+
 
 
 

@@ -135,7 +135,11 @@ console.log(online);
             <Box sx={{ width: "100%", height: "50vh", marginBottom: "1rem" }}>
 
                 <Box sx={{overflow: "auto", height: "50vh", overflowY : "visible", behavior: "smooth" }}>
-                    { !messages[0] ? "No messages ":
+                    { !messages[0] 
+                    ? <Box sx={{display: "flex", alignItems:"center", justifyContent: "center"}}>
+                        <Typography variant="h6">No messages</Typography>
+                    </Box>
+                    :
                         messages.map(message =>
                             <Box m={3} ref={scrollRef} key={message.id || message.message} sx={{textAlign: message.sender_id === user.user_id ? "end" : "start"}}>
                                 <Typography component={Link} to={`/user/${message.sender_id}`} sx={{color:"#390050", textDecoration:"none"}}>{message.sender_name}</Typography><br/>

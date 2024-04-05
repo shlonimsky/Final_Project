@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { ifUserAuthorized } from '../../Redux/actions'
+import { ifUserAuthorized, cleanReduxState } from '../../Redux/actions'
 
 const NavUserBar = (props) => {
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ const NavUserBar = (props) => {
       const res = await axios.delete('/logout')
       if (res.status === 200 || res.status === 204) {
         dispatch(ifUserAuthorized(false))
+        dispatch(cleanReduxState())
         navigate('/login')
       }
     } catch (err) {

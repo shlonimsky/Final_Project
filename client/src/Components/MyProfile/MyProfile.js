@@ -10,24 +10,29 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from "react";
-import { postNewUser, updateUserInfo } from "../../Redux/actions";
+import { setUserById,postNewUser, updateUserInfo } from "../../Redux/actions";
 
 
 const MyProfile = ({ user , allCities}) => {
-    // console.log(user)
+    console.log(user)
     const dispatch = useDispatch();
     // const user = useSelector(state => state.user)
     const [first_name, setFirstName] = useState(user.first_name || "")
     const [last_name, setLastName] = useState(user.last_name || "")
     const [city, setCity] = useState(user.city || "")
     const [birth_date, setBirth] = useState(user.birth_date || "")
-    const [gender, setGender] = useState(user.gender || "")
+    const [gender, setGender] = useState(user.gender || "female")
     const [info, setInfo] = useState(user.info || "")
     const [isEdit, setIsEdit] = useState(first_name === "" ? true : false)
     const [isNewUser, setIsNewUser] = useState(last_name === "" ? true : false)
 
+    useEffect(() => {
+// dispatch(setUserById(user.user_id, user.email))
+    },[])
+
 
     const saveData = (e) => {
+        // console.log(first_name, last_name, city,birth_date,"gender: ",gender,".");
         if (first_name === "" || last_name === "" || city === "" || birth_date === "Invalid Date" || gender === "") return e.preventDefault()
         setIsEdit(false)
         console.log({ first_name, last_name, city, birth_date, gender, info });
@@ -36,7 +41,7 @@ const MyProfile = ({ user , allCities}) => {
     }
 
     return (
-        <FormControl sx={{width:"100%"}}>
+        <Box sx={{width:"100%"}}>
 
             {isEdit
                 ? <Box sx={{marginBottom:"15%", display: "flex", flexDirection: "column"}}>
@@ -50,7 +55,7 @@ const MyProfile = ({ user , allCities}) => {
                         onChange={(e) => setFirstName(e.target.value.trim())} />
                     <TextField sx={{ m: 1, width: '25ch', bgcolor: 'white' }} id='last_name' variant="standard"
                         size="small"
-                        defaultValue={last_name ? last_name : "Last name"}
+                        defaultValue={last_name}
                         error={last_name === "" ? true : false}
                         helperText={last_name === "" ? "Enter your last name" : ""}
                         onChange={(e) => setLastName(e.target.value.trim())} />
@@ -59,7 +64,7 @@ const MyProfile = ({ user , allCities}) => {
                         defaultValue={user.email} />
                     <Box>
                         <FormLabel >Gender</FormLabel>
-                        <RadioGroup defaultValue="female" onChange={(e) => setGender(e.target.value)}>
+                        <RadioGroup defaultValue={gender} onChange={(e) => setGender(e.target.value)}>
                             <FormControlLabel value="female" control={<Radio />} label="Female" />
                             <FormControlLabel value="male" control={<Radio />} label="Male" />
                             <FormControlLabel value="other" control={<Radio />} label="Other" />
@@ -119,7 +124,7 @@ const MyProfile = ({ user , allCities}) => {
             }
 
 
-        </FormControl>
+        </Box>
     )
 }
 

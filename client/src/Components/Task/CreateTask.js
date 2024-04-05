@@ -28,7 +28,7 @@ const CreateTask = (props) => {
     const [is_bargain, setIsBargein] = useState(false);
     const [salary, setSalary] = useState(null)
     const [category_id, setCategoryId] = useState(null);
-    const [img, setImg] = useState(["https://ik.imagekit.io/helperapp/tasks/tasks_rkT75s-AO", "https://ik.imagekit.io/helperapp/tasks/tasks_rkT75s-AO"])
+    const [img, setImg] = useState([])
 
 
     const handleSubmit = () => {
@@ -74,7 +74,7 @@ const CreateTask = (props) => {
                 </Box>
                 <Box sx={{display: "flex", }} m={1}>
                     <FormLabel sx={{width: "120px"}}>Description*</FormLabel>
-                    <TextField fullWidth helperText="Please, discribe the work should be done" 
+                    <TextField fullWidth multiline helperText="Please, discribe the work should be done" 
                     onChange={(e) => setDescription(e.target.value)}></TextField>
                 </Box>
 

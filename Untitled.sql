@@ -13,7 +13,9 @@ last_name varchar(255) not null,
 city varchar(255) not null,
 birth_date DATE not null,
 gender varchar(50) not null CHECK (gender IN ('female' , 'male', 'other')),
-info text
+info text,
+avatar text,
+img text ARRAY
 )
 
 
@@ -62,7 +64,7 @@ post_date DATE not null CHECK (post_date >= CURRENT_DATE) default CURRENT_DATE,
 salary INTEGER not null CHECK (salary > 0 ),
 is_bargain boolean not null CHECK (is_bargain IN ('true' , 'false')),
 status varchar(255) not null check (status IN ('open','in proccess','completed')),
-helper INTEGER REFERENCES users_info (id) ON DELETE CASCADE ON UPDATE CASCADE)
+helper_id INTEGER REFERENCES users_info (id) ON DELETE CASCADE ON UPDATE CASCADE)
 
 drop table tasks
 
@@ -102,7 +104,7 @@ VALUES
 ('Ashkelon', 'South'),
 ('Baqa-Jatt', 'Haifa'),
 ('Bat Yam', 'Tel Aviv'),
-('Beersheba', 'South'),
+('Beersheva', 'South'),
 ('Beit Shean', 'North'),
 ('Beit Shemesh', 'Jerusalem'),
 ('Beitar Illit', 'Judea & Samaria'),

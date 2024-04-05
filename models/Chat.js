@@ -99,6 +99,13 @@ const {DataTypes} = Sequelize;
 //     tableName : 'conversations'
 // });
 export const Conversations = db.define('conversations', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+    unique: true
+  },
   sender_id: {
     type: DataTypes.INTEGER,
     foreignKey: true,

@@ -29,6 +29,7 @@ const ChangeTask = (props) => {
                     // setPosted(dayjs().diff(dayjs(res.post_date),'day'))
 
                     setTask(res);
+                    setSalary(res.salary)
                   
                     fetch(`/helper/${res.helper_id}`)
                     .then(res => res.json())

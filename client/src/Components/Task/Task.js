@@ -76,6 +76,7 @@ const Task = (props) => {
             .catch(err => console.log("ERROR in FETCH in getHelpe r",err))
         )
     }
+    // console.log("helper:::::", helper.user_id);
 
     return(
             !task  
@@ -93,7 +94,7 @@ const Task = (props) => {
                         <div>
                             {helper && 
                         <Typography variant="h6">helper: {
-                            <Typography variant="h6" component={Link} to={`/user/${helper.first_name}`}>{
+                            <Typography variant="h6" component={Link} to={`/user/${helper.user_id}`}>{
                                 helper.first_name
                                 }</Typography>
                             }</Typography>
@@ -113,10 +114,12 @@ const Task = (props) => {
                         sx={{textDecoration:"none", color:"black", "&:hover": {color: "#44B6C6",},}}  component={Link} to={task.user_id==userTask.user_id ? `/cabinet/${user.user_id}` : `/user/${userTask.user_id}`}>
                             Posted by {userTask.first_name}
                         </Typography>
+                        
                     )}
                 </Box>
 
-                <Typography m={2} sx={{border: "solid 0.5px"}} variant="h5" component="h5">{task.description}</Typography>
+                <Typography m={2} sx={{border: "solid 0.5px", whiteSpace: "break-spaces"}} variant="h5" component="h5">{task.description}</Typography>
+
                
                 {task.img && <Box>
                     <Divider > <CameraAltOutlinedIcon></CameraAltOutlinedIcon> </Divider>
@@ -163,7 +166,7 @@ const Task = (props) => {
 
                     </Box>
                 )}
-                {openAlert && <AlertDialog getHelper={getHelper} stateChanger={setOpenAlert} open={openAlert} title={title} taskID={task.id} helperID={helper.user_id||""}></AlertDialog>}
+                {openAlert && <AlertDialog getHelper={getHelper} stateChanger={setOpenAlert} open={openAlert} title={title} taskID={task.id} helperID={helper ? helper.user_id : ""}></AlertDialog>}
             </Box>
               
     )

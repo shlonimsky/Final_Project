@@ -7,7 +7,7 @@ export const getAllCategories = () => async (dispatch) => {
     return(
       dispatch({
         type : "GET_ALL_CATEGORIES",
-        payload: [{description: "", id: '', title: "No category"}, ...data]
+        payload: [{description: "", id: '', title: "Without a category"}, ...data]
       })
     )
   } catch(err){
@@ -63,6 +63,18 @@ export const ifUserAuthorized = (bool, token=null) => {
     type: "IS_AUTH",
     payload: bool,
     token: token,
+  };
+};
+
+export const cleanReduxState = () => {
+  return {
+    type: "CLEAN",
+    payload: {    
+      user: {},
+      tasks : null,
+      jobs : null,
+      notifications : 0,
+      messages : 0}
   };
 };
 

@@ -1,4 +1,4 @@
-import { Box, Button, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton,FormHelperText } from '@mui/material';
+import { Box, Button, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton,FormHelperText, Typography } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -19,62 +19,98 @@ const LoginRegister = (props) => {
     const [password2, setPassword2] = useState('');
     const [msg, setMsg] = useState('');
     const [error, setError] = useState(null)
-
+    
     useEffect(() => {
         setMsg('')
         setError(null)
     }, [title])
-
+    
       // @mui library for password input
       const [showPassword, setShowPassword] = useState(false);
       const handleClickShowPassword = () => setShowPassword((show) => !show);
       const handleMouseDownPassword = (e) => e.preventDefault();
-  
+      
+      const logIn = async () => {
+          console.log("in login")
+              try{
+                  const {data} = await axios.post('/login',{email,password})
+                  console.log("data in LoginRegister  in func",data)
+                  dispatch(ifUserAuthorized(true,data.accessToken))
+                  dispatch(setUserById(data.userID,data.email))
+                  setMsg(data.msg)
+                  navigate(`/cabinet/${data.userID}`)
+              } catch (err){
+                  console.log("err in CATCH: ", err);
+                  dispatch(ifUserAuthorized(false))
+                  setMsg(err.response.data.msg)
+                  setError("Email or password is wrong")
+              }
+      }
 
-    const handleAction = async (id) => {
-        console.log(id)
-        if(password !== '' && !/\s+/.test(password) && regex.test(email)){
-            if(id === 'login'){
-                console.log("in login")
-                    try{
-                        const {data} = await axios.post('/login',{email,password})
-                        console.log("data in LoginRegister  in func",data)
-                        dispatch(ifUserAuthorized(true,data.accessToken))
-                        dispatch(setUserById(data.userID,data.email))
-                        setMsg(data.msg)
-                        navigate(`/cabinet/${data.userID}`)
-                    } catch (err){
-                        console.log("err in CATCH: ", err);
-                        dispatch(ifUserAuthorized(false))
-                        setMsg(err.response.data.msg)
-                        setError("Email or password is wrong")
+      const handleAction = async (id) => {
+              if(password !== '' && !/\s+/.test(password) && regex.test(email)){
+                if(id === 'register'){
+                    if(password === password2 ){
+                    try {
+                        const res = await axios.post('/register', {email,password})
+                        console.log(res.data)
+                        //setAccessToken
+                        // localStorage.setItem("token",JSON.stringify(res.data))
+                        setMsg(res.data.msg)
+                        logIn()
+                        // navigate('/login')
+                    } catch (err) {
+                        console.log(err);
+                        setError("The email address is already being used")
+                        // setMsg(err.res.data.msg || "Email is already exist")
+            
                     }
-            }
-            if(id === 'register'){
-                if(password === password2 ){
-                try {
-                    const res = await axios.post('/register', {email,password})
-                    console.log(res.data)
-                    //setAccessToken
-                    // localStorage.setItem("token",JSON.stringify(res.data))
-                    setMsg(res.data.msg)
-                    navigate('/login')
-                } catch (err) {
-                    console.log(err.res.data.msg);
-                    setMsg(err.res.data.msg)
-
                 }
+            }else logIn()
             }
         }
-
-        }
+      
+    //   const handleAction = async (id) => {
+    //       console.log(id)
+    //       if(password !== '' && !/\s+/.test(password) && regex.test(email)){
+    //         if(id === 'register'){
+    //             if(password === password2 ){
+    //             try {
+    //                 const res = await axios.post('/register', {email,password})
+    //                 console.log(res.data)
+    //                 //setAccessToken
+    //                 // localStorage.setItem("token",JSON.stringify(res.data))
+    //                 setMsg(res.data.msg)
+    //                 navigate('/login')
+    //             } catch (err) {
+    //                 console.log(err.res.data.msg);
+    //                 setMsg(err.res.data.msg)
         
-    }
+    //             }
+    //         }
+    //     }
+    //         if(id === 'login'){
+    //             console.log("in login")
+    //                 try{
+    //                     const {data} = await axios.post('/login',{email,password})
+    //                     console.log("data in LoginRegister  in func",data)
+    //                     dispatch(ifUserAuthorized(true,data.accessToken))
+    //                     dispatch(setUserById(data.userID,data.email))
+    //                     setMsg(data.msg)
+    //                     navigate(`/cabinet/${data.userID}`)
+    //                 } catch (err){
+    //                     console.log("err in CATCH: ", err);
+    //                     dispatch(ifUserAuthorized(false))
+    //                     setMsg(err.response.data.msg)
+    //                     setError("Email or password is wrong")
+    //                 }
+    //         }
+    //     }
+    // }
 
-    console.log("EEERROR: ", msg);
 
     return (
-        <section className='flex_row container' >{msg}
+        <section className='flex_row container' >
 
             <Box sx={{
                 display: { xs: 'none', md: 'flex' },
@@ -100,7 +136,9 @@ const LoginRegister = (props) => {
                     justifyContent: 'center',
                 }}
             >
-                <h1>{title === 'login' ? "Log In" : "Register"}</h1>
+                <Typography variant='h5'>{title === 'login' ? "Log In" : "Register"}</Typography>
+                {/* <Typography  sx={{color:"red",display : error ? "flex" : "none"}}>{error || msg}</Typography> */}
+
                 <FormHelperText  sx={{color:"red",display : error ? "flex" : "none"}}>{error || msg}</FormHelperText>
 
 

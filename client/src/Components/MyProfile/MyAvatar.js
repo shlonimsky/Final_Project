@@ -17,10 +17,10 @@ const MyAvatar = ({ user }) => {
     const publicKey = "public_SZZWi2y0FSQ+d9ha463+dyHJGwE="
     const urlEndpoint = "https://ik.imagekit.io/helperapp"
     const authenticationEndpoint = 'http://localhost:5001/sdk/imagekit/auth'
+    console.log(user);
 
     const changeAvatar = () => {
         console.log("edit avatar");
-        console.log(user);
         // console.log({...user,avatar: "jbjkbjkbnjkn" });
 
     }
@@ -51,7 +51,10 @@ const MyAvatar = ({ user }) => {
             }  */}
           
 
-            {isEdit &&  <Box sx={{ display: "flex", justifyContent: "center", flexDirection: 'column',}}>
+            {isEdit &&  
+            <Box sx={{ display: "flex", justifyContent: "center", flexDirection: 'column', alignItems: "center"}}>
+              <Box sx={{marginLeft:10}}>
+
             <IKContext
             
             publicKey={publicKey} 
@@ -62,25 +65,26 @@ const MyAvatar = ({ user }) => {
 
             {/* // Image component */}
             {/* <IKImage path="/default-image.jpg" transformation={[{
-                "height": "300",
-                "width": "400"
+              "height": "300",
+              "width": "400"
             }]} /> */}
 
             {/* // Image upload */}
             <IKUpload 
-            fileName={`avatar-${user.id}`} 
+            fileName={`avatar-${user.user_id}`} 
             useUniqueFileName={true}
             onError={onError}
             onSuccess={onSuccess}
             onUploadProgress={onUploadProgress}
-            folder={`/avatars/${user.id}`}
+            folder={`/avatars/${user.user_id}`}
             inputRef={inputRefTest}
-          ref={ikUploadRefTest}
+            ref={ikUploadRefTest}
             />
         {/* {inputRefTest && <button onClick={() => inputRefTest.current.click()}>Upload</button>} */}
         {/* {ikUploadRefTest && <button onClick={() => ikUploadRefTest.current.abort()}>Abort request</button>} */}
       
             </IKContext>
+            </Box>
             {isEdit && <Typography variant="p" sx={{'&:hover': {cursor: 'pointer', color: 'secondary.main'}}} onClick={() => setIsEdit(false)}>Cancel </Typography>}
 
             </Box>

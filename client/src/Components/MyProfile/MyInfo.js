@@ -19,6 +19,8 @@ const MyInfo = ({ user }) => {
             city: user.city,
             birth_date: user.birth_date,
             gender: user.gender,
+            avatar: user.avatar,
+            img: user.img,
             info
         }))
     }
@@ -30,9 +32,10 @@ const MyInfo = ({ user }) => {
                         <Typography variant="h6"> About you: </Typography>
                     <TextField sx={{ m: 1, width: '100%', bgcolor: 'white' }} id='info'
                     fullWidth
+                    multiline
                         maxRows={4}
                         variant="standard"
-                        defaultValue={info ? info : "About you"}
+                        defaultValue={info ? info : ""}
                         onChange={(e) => setInfo(e.target.value)} />
                         <Box sx={{display:"flex"}}>
                         <Button onClick={() => {
@@ -54,7 +57,7 @@ const MyInfo = ({ user }) => {
                                 </Fab>
                             )}
                         </Box>
-                        <Typography variant="subtitle1"> {info} </Typography>
+                        <Typography sx={{whiteSpace: "break-spaces"}} variant="subtitle1"> {info} </Typography>
                     </Box>
 
                 }

@@ -15,26 +15,28 @@ useEffect(() => {
 
     return(
         <Box m={3}>
-            <Typography variant="h2" sx={{textAlign:"center"}}>YOUR TASKS</Typography> 
-            <Box  sx={{display:"flex", justifyContent:"center"}}>
+            <Typography variant="h4" sx={{textAlign:"center", color:"#390050", paddingBottom: 4}}>YOUR TASKS</Typography> 
+            <Box  sx={{display:"flex", justifyContent:"center", paddingBottom: 6}}>
                 <Button size="large" component={Link} to='/create_task' variant="outlined">Create a new task</Button>
             </Box>
             <Box p={2} sx={{border:"solid 0.5px #44B6C6", borderRadius:"5px", marginTop:"5%"}}>
             { !tasks ? <Typography variant="h5">No results</Typography> : 
             tasks.map(task => 
-            <Box m={2} key={task.id} >
-                <Box  sx={{display: "flex", justifyContent: "space-between"}}>
+            <Box m={2} key={task.id} sx={{paddingBottom: 5}}>
+                <Box  sx={{display: "flex", gap:10, paddingBottom: 2}}>
+                    <Box sx={{width: '70%'}}>
                     <Typography 
-                    variant="h3" component={Link} 
+                    variant="h5" component={Link} 
                     to={`/task/${task.id}`} 
-                    sx={{textDecoration:"none", color:"black", "&:hover": {
+                    sx={{textDecoration:"none", color:"primary", "&:hover": {
                         color: "#44B6C6",
                       },}} 
                       >{task.title}</Typography>
-                    <div>
+                    </Box>
+                    <Box sx={{width: "30%"}}>
                         <Typography > PRICE: {task.salary}</Typography>
                         <Typography>STATUS: {task.status}</Typography>
-                    </div>
+                    </Box>
                 </Box>
                 <Box>
                     {task.description}

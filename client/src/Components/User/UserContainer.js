@@ -62,21 +62,21 @@ const UserContainer = (props) => {
 
     const CreateChat = async () => {
 
-        // try{
-        //     const res = await axios.post('/api/conversations', {
-        //         sender_id : user.user_id,
-        //         receiver_id : helper.user_id
-        //     })
-        //     console.log("res", res);
-        // } catch (err) {
-        //     console.log(err);
-        // }
-        navigate('/chat', {
-            state: {
-                sender_id: user.user_id,
-                receiver_id: helper.user_id
-            }
-        })
+        try{
+            const res = await axios.post('/api/conversations', {
+                sender_id : user.user_id,
+                receiver_id : helper.user_id
+            })
+            console.log("res", res);
+            navigate('/chat', {
+                state: {
+                    sender_id: user.user_id,
+                    receiver_id: helper.user_id
+                }
+            })
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const JobOffer = () => {

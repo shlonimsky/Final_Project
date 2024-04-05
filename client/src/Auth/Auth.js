@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { ifUserAuthorized } from "../Redux/actions";
+import { ifUserAuthorized, cleanReduxState } from "../Redux/actions";
 
 const Auth = (props) => {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const Auth = (props) => {
         dispatch(ifUserAuthorized(true, data.accessToken));
       } catch (err) {
         dispatch(ifUserAuthorized(false));
+        dispatch(cleanReduxState())
         navigate("/login");
       }
     };
